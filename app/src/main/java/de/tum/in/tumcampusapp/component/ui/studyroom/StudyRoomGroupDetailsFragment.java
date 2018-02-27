@@ -93,7 +93,7 @@ public class StudyRoomGroupDetailsFragment extends Fragment {
                              .append("</b>");
             }
 
-            occupationStatus.setText(Utils.fromHtml(stringBuilder.toString()));
+            occupationStatus.setText(Utils.INSTANCE.fromHtml(stringBuilder.toString()));
 
             int color;
             if (occupationStatus.getText()

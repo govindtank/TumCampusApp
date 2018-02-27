@@ -63,7 +63,7 @@ public class AlarmNotification extends GenericNotification {
             return TUMCabeClient.getInstance(this.context)
                                 .getNotification(this.notification);
         } catch (IOException e) {
-            Utils.log(e);
+            Utils.INSTANCE.log(e);
             return null;
         }
     }
@@ -87,7 +87,7 @@ public class AlarmNotification extends GenericNotification {
         try {
             sig.initVerify(key);
         } catch (InvalidKeyException e) {
-            Utils.log(e);
+            Utils.INSTANCE.log(e);
             return false;
         }
 
@@ -97,13 +97,13 @@ public class AlarmNotification extends GenericNotification {
         try {
             sig.update(textBytes);
         } catch (SignatureException e) {
-            Utils.log(e);
+            Utils.INSTANCE.log(e);
             return false;
         }
         try {
             return sig.verify(Base64.decode(signature, Base64.DEFAULT));
         } catch (SignatureException | IllegalArgumentException e) {
-            Utils.log(e);
+            Utils.INSTANCE.log(e);
             return false;
         }
     }
@@ -122,7 +122,7 @@ public class AlarmNotification extends GenericNotification {
         try {
             return keyFactory.generatePublic(new X509EncodedKeySpec(keyBytes));
         } catch (InvalidKeySpecException e) {
-            Utils.log(e);
+            Utils.INSTANCE.log(e);
             return null;
         }
 
@@ -136,7 +136,7 @@ public class AlarmNotification extends GenericNotification {
         }
 
         if (!isValidSignature(info.getTitle(), info.getDescription(), info.getSignature())) {
-            Utils.log("Received an invalid RSA signature");
+            Utils.INSTANCE.log("Received an invalid RSA signature");
             return null;
         }
 
@@ -146,7 +146,7 @@ public class AlarmNotification extends GenericNotification {
         alarm.putExtra("info", this.info);
         alarm.putExtra("alert", this.alert);
         PendingIntent pending = PendingIntent.getActivity(this.context, 0, alarm, PendingIntent.FLAG_UPDATE_CURRENT);
-        String strippedDescription = Utils.stripHtml(info.getDescription()); // Strip any html tags from the description
+        String strippedDescription = Utils.INSTANCE.stripHtml(info.getDescription()); // Strip any html tags from the description
 
         return new NotificationCompat.Builder(context, Const.NOTIFICATION_CHANNEL_EMERGENCY)
                 .setSmallIcon(this.icon)

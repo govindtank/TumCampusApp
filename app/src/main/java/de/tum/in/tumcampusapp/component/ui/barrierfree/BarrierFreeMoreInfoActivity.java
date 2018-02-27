@@ -59,7 +59,7 @@ public class BarrierFreeMoreInfoActivity
             result = TUMCabeClient.getInstance(this)
                                   .getMoreInfoList();
         } catch (IOException e) {
-            Utils.log(e);
+            Utils.INSTANCE.log(e);
             return result;
         }
         return result;

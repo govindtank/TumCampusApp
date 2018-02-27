@@ -47,12 +47,12 @@ public class SupportCard extends Card {
 
     @Override
     public void discard(Editor editor) {
-        Utils.setSetting(mContext, CardManager.SHOW_SUPPORT, false);
+        Utils.INSTANCE.setSetting(mContext, CardManager.SHOW_SUPPORT, false);
     }
 
     @Override
     protected boolean shouldShow(SharedPreferences p) {
-        return Utils.getSettingBool(mContext, CardManager.SHOW_SUPPORT, true);
+        return Utils.INSTANCE.getSettingBool(mContext, CardManager.SHOW_SUPPORT, true);
     }
 
     @Override

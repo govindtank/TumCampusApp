@@ -146,7 +146,7 @@ public class TUMCabeClient {
 
     public Observable<ChatMessage> sendMessage(int roomId, ChatMessage chatMessage) {
         //If the id is zero then its an new entry otherwise try to update it
-        Utils.log("Sending: " + chatMessage.getId() + " " + chatMessage.getText());
+        Utils.INSTANCE.log("Sending: " + chatMessage.getId() + " " + chatMessage.getText());
         if (chatMessage.getId() == 0) {
             return service.sendMessage(roomId, chatMessage);
         }

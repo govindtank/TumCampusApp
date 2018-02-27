@@ -29,7 +29,7 @@ public abstract class GenericNotification {
         if (!this.confirmation || this.notification == -1) {
             return;
         }
-        Utils.logv("Confirmed notification " + this.notification);
+        Utils.INSTANCE.logv("Confirmed notification " + this.notification);
         TUMCabeClient.getInstance(this.context)
                      .confirm(this.notification);
     }

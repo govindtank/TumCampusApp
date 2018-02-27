@@ -93,10 +93,10 @@ public class DownloadService extends JobIntentService {
 
         // Check if device has a internet connection
 
-        boolean backgroundServicePermitted = Utils.isBackgroundServicePermitted(service);
+        boolean backgroundServicePermitted = Utils.INSTANCE.isBackgroundServicePermitted(service);
 
         if (NetUtils.isConnected(service) && (launch || backgroundServicePermitted)) {
-            Utils.logv("Handle action <" + action + ">");
+            Utils.INSTANCE.logv("Handle action <" + action + ">");
             switch (action) {
                 case Const.NEWS:
                     successful = service.downloadNews(force);
@@ -111,14 +111,14 @@ public class DownloadService extends JobIntentService {
                 default:
                     successful = service.downloadAll(force);
 
-                    boolean isSetup = Utils.getInternalSettingBool(service, Const.EVERYTHING_SETUP, false);
+                    boolean isSetup = Utils.INSTANCE.getInternalSettingBool(service, Const.EVERYTHING_SETUP, false);
                     if (isSetup) {
                         break;
                     }
                     CacheManager cm = new CacheManager(service);
                     cm.syncCalendar();
                     if (successful) {
-                        Utils.setInternalSetting(service, Const.EVERYTHING_SETUP, true);
+                        Utils.INSTANCE.setInternalSetting(service, Const.EVERYTHING_SETUP, true);
                     }
                     break;
             }
@@ -129,7 +129,7 @@ public class DownloadService extends JobIntentService {
             try {
                 service.importLocationsDefaults();
             } catch (IOException e) {
-                Utils.log(e);
+                Utils.INSTANCE.log(e);
                 successful = false;
             }
             if (successful) {
@@ -143,7 +143,7 @@ public class DownloadService extends JobIntentService {
         }
 
         // After done the job, create an broadcast intent and send it. The receivers will be informed that the download service has finished.
-        Utils.logv("Downloadservice was " + (successful ? "" : "not ") + "successful");
+        Utils.INSTANCE.logv("Downloadservice was " + (successful ? "" : "not ") + "successful");
         if (successful) {
             service.broadcastDownloadCompleted();
         } else {
@@ -160,7 +160,7 @@ public class DownloadService extends JobIntentService {
     @Override
     public void onCreate() {
         super.onCreate();
-        Utils.log("DownloadService service has started");
+        Utils.INSTANCE.log("DownloadService service has started");
         broadcastManager = LocalBroadcastManager.getInstance(this);
 
         new SyncManager(this);
@@ -182,7 +182,7 @@ public class DownloadService extends JobIntentService {
     public void onDestroy() {
         mDisposable.clear();
         super.onDestroy();
-        Utils.log("DownloadService service has stopped");
+        Utils.INSTANCE.log("DownloadService service has stopped");
     }
 
     static void enqueueWork(Context context, Intent work) {
@@ -245,7 +245,7 @@ public class DownloadService extends JobIntentService {
             nm.downloadFromExternal(force);
             return true;
         } catch (JSONException e) {
-            Utils.log(e);
+            Utils.INSTANCE.log(e);
             return false;
         }
     }
@@ -258,7 +258,7 @@ public class DownloadService extends JobIntentService {
                                         .locationDao();
         if (dao.isEmpty()) {
             AssetManager assetManager = getAssets();
-            List<String[]> rows = Utils.readCsv(assetManager.open(CSV_LOCATIONS));
+            List<String[]> rows = Utils.INSTANCE.readCsv(assetManager.open(CSV_LOCATIONS));
             for (String[] row : rows) {
                 dao.replaceInto(new Location(Integer.parseInt(row[0]), row[1],
                                              row[2], row[3], row[4], row[5], row[6], row[7], row[8]));

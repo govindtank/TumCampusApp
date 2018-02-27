@@ -102,7 +102,7 @@ public class FavoriteDishAlarmScheduler extends BroadcastReceiver {
         CafeteriaMenuManager cm = new CafeteriaMenuManager(context);
         HashMap<Integer, HashSet<CafeteriaMenu>> scheduledNow = cm.getServedFavoritesAtDate(triggeredAt);
         if (scheduledNow == null) {
-            Utils.log("FavoriteDishAlarmScheduler: Scheduled now is null, onReceived aborted");
+            Utils.INSTANCE.log("FavoriteDishAlarmScheduler: Scheduled now is null, onReceived aborted");
             return;
         }
         CafeteriaDao dao = TcaDb.getInstance(context)
@@ -125,7 +125,7 @@ public class FavoriteDishAlarmScheduler extends BroadcastReceiver {
                     .setStyle(new NotificationCompat.BigTextStyle().bigText(message))
                     .setContentText(message)
                     .setAutoCancel(true)
-                    .setLargeIcon(Utils.getLargeIcon(context, R.drawable.ic_cutlery))
+                    .setLargeIcon(Utils.INSTANCE.getLargeIcon(context, R.drawable.ic_cutlery))
                     .setContentIntent(pi)
                     .setDefaults(Notification.DEFAULT_SOUND)
                     .setAutoCancel(true);

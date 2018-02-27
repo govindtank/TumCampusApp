@@ -76,7 +76,7 @@ public abstract class ActivityForSearchingTumOnline<T> extends ActivityForSearch
             showNoTokenLayout();
             return;
         }
-        Utils.logv("TUMOnline token is <" + accessToken + ">");
+        Utils.INSTANCE.logv("TUMOnline token is <" + accessToken + ">");
         showLoadingStart();
         requestHandler.setForce(force);
         requestHandler.fetchInteractive(this, this);

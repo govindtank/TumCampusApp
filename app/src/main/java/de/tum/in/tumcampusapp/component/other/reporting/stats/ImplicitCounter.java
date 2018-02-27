@@ -71,7 +71,7 @@ public final class ImplicitCounter {
 
         //Check if context passed
         if (c == null) {
-            Utils.log("Stats submit: No context passed!");
+            Utils.INSTANCE.log("Stats submit: No context passed!");
             return;
         }
         //Get the prefs

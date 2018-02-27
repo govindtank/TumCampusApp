@@ -111,9 +111,9 @@ public final class TUMOnlineRequest<T> {
         if (tc.isPresent()) { //Check that the token is actually active
             if (tc.get()
                   .isConfirmed()) {
-                Utils.setSetting(c, Const.TUMO_DISABLED, false);
+                Utils.INSTANCE.setSetting(c, Const.TUMO_DISABLED, false);
             } else {
-                Utils.setSetting(c, Const.TUMO_DISABLED, true);//Nope its not, deactivate all requests to TUMOnline
+                Utils.INSTANCE.setSetting(c, Const.TUMO_DISABLED, true);//Nope its not, deactivate all requests to TUMOnline
                 return true;
             }
         }
@@ -131,8 +131,8 @@ public final class TUMOnlineRequest<T> {
         String url = this.getRequestURL();
 
         //If there were some requests that failed and we verified that the token is not active anymore, block all requests directly
-        if (!method.equals(TUMOnlineConst.Companion.getTOKEN_CONFIRMED()) && Utils.getSettingBool(mContext, Const.TUMO_DISABLED, false)) {
-            Utils.log("aborting fetch URL, as the token is not active any longer " + url);
+        if (!method.equals(TUMOnlineConst.Companion.getTOKEN_CONFIRMED()) && Utils.INSTANCE.getSettingBool(mContext, Const.TUMO_DISABLED, false)) {
+            Utils.INSTANCE.log("aborting fetch URL, as the token is not active any longer " + url);
             return Optional.absent();
         }
 
@@ -145,12 +145,12 @@ public final class TUMOnlineRequest<T> {
             }
 
             //Set the error and return
-            Utils.log("aborting fetch URL (" + lockedError + ") " + url);
+            Utils.INSTANCE.log("aborting fetch URL (" + lockedError + ") " + url);
             lastError = lockedError;
             return Optional.absent();
         }
 
-        Utils.log("fetching URL " + url);
+        Utils.INSTANCE.log("fetching URL " + url);
 
         Optional<String> result;
         try {
@@ -159,7 +159,7 @@ public final class TUMOnlineRequest<T> {
                 result = net.downloadStringHttp(url);
             }
         } catch (IOException e) {
-            Utils.log(e, "FetchError");
+            Utils.INSTANCE.log(e, "FetchError");
             lastError = e.getMessage();
             result = Optional.absent();
         }
@@ -169,13 +169,13 @@ public final class TUMOnlineRequest<T> {
             try {
                 res = new Persister().read(method.getResponse(), result.get());
                 cacheManager.addToCache(url, result.get(), method.getValidity(), CacheManager.CACHE_TYP_DATA);
-                Utils.logv("added to cache " + url);
-                Utils.logv(result.get() + " " + res.toString());
+                Utils.INSTANCE.logv("added to cache " + url);
+                Utils.INSTANCE.logv(result.get() + " " + res.toString());
 
                 //Release any lock present in the database
                 tumManager.releaseLock(url);
             } catch (Exception e) {
-                Utils.log(e, "TUMonline request failed");
+                Utils.INSTANCE.log(e, "TUMonline request failed");
                 //Serialisation failed - lock for a specific time, save the error message
                 lastError = tumManager.addLock(url, result.get());
             }
@@ -211,15 +211,15 @@ public final class TUMOnlineRequest<T> {
             @Override
             protected void onPostExecute(Optional<T> result) {
                 if (result.isPresent()) {
-                    Utils.logv("Received result <" + result + '>');
+                    Utils.INSTANCE.logv("Received result <" + result + '>');
                 } else {
-                    Utils.log("No result available");
+                    Utils.INSTANCE.log("No result available");
                 }
 
                 // Handles result
                 if (!NetUtils.isConnected(mContext)) {
                     if (result.isPresent()) {
-                        Utils.showToast(mContext, R.string.no_internet_connection);
+                        Utils.INSTANCE.showToast(mContext, R.string.no_internet_connection);
                     } else {
                         listener.onNoInternetError();
                         return;

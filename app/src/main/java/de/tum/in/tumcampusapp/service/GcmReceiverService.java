@@ -51,7 +51,7 @@ public class GcmReceiverService extends FirebaseMessagingService {
     // [START receive_message]
     @Override
     public void onMessageReceived(RemoteMessage message) {
-        Utils.log("Notification received...");
+        Utils.INSTANCE.log("Notification received...");
         Map<String, String> data = message.getData();
         //Legacy messages need to be handled - maybe some data is missing?
         if (data.containsKey(PAYLOAD) && data.containsKey("type")) {
@@ -62,7 +62,7 @@ public class GcmReceiverService extends FirebaseMessagingService {
 
             //Initialize our outputs
             GenericNotification n = null;
-            Utils.log("Notification received: " + data);
+            Utils.INSTANCE.log("Notification received: " + data);
 
             //switch on the type as both the type and payload must be present
             switch (type) { //https://github.com/TCA-Team/TumCampusApp/wiki/GCM-Message-format
@@ -81,7 +81,7 @@ public class GcmReceiverService extends FirebaseMessagingService {
                         TUMCabeClient.getInstance(this)
                                      .confirm(notification);
                     } catch (IOException e) {
-                        Utils.log(e);
+                        Utils.INSTANCE.log(e);
                     }
                     break;
             }
@@ -94,7 +94,7 @@ public class GcmReceiverService extends FirebaseMessagingService {
                 try {
                     n.sendConfirmation();
                 } catch (IOException e) {
-                    Utils.log(e);
+                    Utils.INSTANCE.log(e);
                 }
 
                 //TODO

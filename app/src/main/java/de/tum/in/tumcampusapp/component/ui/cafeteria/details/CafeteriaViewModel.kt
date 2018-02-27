@@ -65,7 +65,7 @@ class CafeteriaViewModel(private val localRepository: CafeteriaLocalRepository,
                     .doOnNext { localRepository.clear() }
                     .flatMap { remoteRepository.getAllCafeterias() }.observeOn(Schedulers.io())
                     .doAfterNext { localRepository.updateLastSync() }
-                    .doOnError { Utils.log(it.message) }
+                    .doOnError { Utils.log(it.message.orEmpty()) }
                     .subscribe({ t -> t.forEach { localRepository.addCafeteria(it) } })
             )
 

@@ -41,7 +41,7 @@ public class SilenceService extends JobIntentService {
             timeToEvent = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.ENGLISH).parse(timeToEventString)
                                                                                   .getTime();
         } catch (ParseException e) {
-            Utils.log(e, "");
+            Utils.INSTANCE.log(e, "");
         }
         return Math.min(CHECK_INTERVAL, timeToEvent - System.currentTimeMillis() + CHECK_DELAY);
     }
@@ -49,13 +49,13 @@ public class SilenceService extends JobIntentService {
     @Override
     public void onCreate() {
         super.onCreate();
-        Utils.log("SilenceService has started");
+        Utils.INSTANCE.log("SilenceService has started");
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Utils.log("SilenceService has stopped");
+        Utils.INSTANCE.log("SilenceService has stopped");
     }
 
     static void enqueueWork(Context context, Intent work) {
@@ -65,13 +65,13 @@ public class SilenceService extends JobIntentService {
     @Override
     protected void onHandleWork(@NonNull Intent intent) {
         //Abort, if the settings changed
-        if (!Utils.getSettingBool(this, Const.SILENCE_SERVICE, false)) {
+        if (!Utils.INSTANCE.getSettingBool(this, Const.SILENCE_SERVICE, false)) {
             // Don't schedule a new run, since the service is disabled
             return;
         }
 
         if (!hasPermissions(this)) {
-            Utils.setSetting(this, Const.SILENCE_SERVICE, false);
+            Utils.INSTANCE.setSetting(this, Const.SILENCE_SERVICE, false);
             return;
         }
 
@@ -84,11 +84,11 @@ public class SilenceService extends JobIntentService {
 
         long startTime = System.currentTimeMillis();
         long waitDuration = CHECK_INTERVAL;
-        Utils.log("SilenceService enabled, checking for lectures …");
+        Utils.INSTANCE.log("SilenceService enabled, checking for lectures …");
 
         CalendarController calendarController = new CalendarController(this);
         if (!calendarController.hasLectures()) {
-            Utils.logv("No lectures available");
+            Utils.INSTANCE.logv("No lectures available");
             alarmManager.set(AlarmManager.RTC, startTime + waitDuration, pendingIntent);
             return;
         }
@@ -98,16 +98,16 @@ public class SilenceService extends JobIntentService {
             return;
         }
         List<CalendarItem> currentLectures = calendarController.getCurrentFromDb();
-        Utils.log("Current lectures: " + currentLectures.size());
+        Utils.INSTANCE.log("Current lectures: " + currentLectures.size());
 
         if (currentLectures.size() == 0 || isDoNotDisturbMode()) {
-            if (Utils.getInternalSettingBool(this, Const.SILENCE_ON, false) && !isDoNotDisturbMode()) {
+            if (Utils.INSTANCE.getInternalSettingBool(this, Const.SILENCE_ON, false) && !isDoNotDisturbMode()) {
                 // default: old state
-                Utils.log("set ringer mode to old state");
+                Utils.INSTANCE.log("set ringer mode to old state");
                 am.setRingerMode(Integer.parseInt(
-                        Utils.getSetting(this, Const.SILENCE_OLD_STATE,
-                                         Integer.toString(AudioManager.RINGER_MODE_NORMAL))));
-                Utils.setInternalSetting(this, Const.SILENCE_ON, false);
+                        Utils.INSTANCE.getSetting(this, Const.SILENCE_OLD_STATE,
+                                                  Integer.toString(AudioManager.RINGER_MODE_NORMAL))));
+                Utils.INSTANCE.setInternalSetting(this, Const.SILENCE_ON, false);
 
                 List<CalendarItem> nextCalendarItems = calendarController.getNextCalendarItems();
                 if (nextCalendarItems.size() != 0) { //Check if we have a "next" item in the database and update the refresh interval until then. Otherwise use default interval.
@@ -118,20 +118,20 @@ public class SilenceService extends JobIntentService {
             }
         } else {
             // remember old state if just activated ; in doubt dont change
-            if (!Utils.getInternalSettingBool(this, Const.SILENCE_ON, true)) {
-                Utils.setSetting(this, Const.SILENCE_OLD_STATE, am.getRingerMode());
+            if (!Utils.INSTANCE.getInternalSettingBool(this, Const.SILENCE_ON, true)) {
+                Utils.INSTANCE.setSetting(this, Const.SILENCE_OLD_STATE, am.getRingerMode());
             }
 
             // if current lecture(s) found, silence the mobile
-            Utils.setInternalSetting(this, Const.SILENCE_ON, true);
+            Utils.INSTANCE.setInternalSetting(this, Const.SILENCE_ON, true);
 
             // Set into silent mode
-            String mode = Utils.getSetting(this, "silent_mode_set_to", "0");
+            String mode = Utils.INSTANCE.getSetting(this, "silent_mode_set_to", "0");
             if ("0".equals(mode)) {
-                Utils.log("set ringer mode: vibration");
+                Utils.INSTANCE.log("set ringer mode: vibration");
                 am.setRingerMode(AudioManager.RINGER_MODE_VIBRATE);
             } else {
-                Utils.log("set ringer mode: silent");
+                Utils.INSTANCE.log("set ringer mode: silent");
                 am.setRingerMode(AudioManager.RINGER_MODE_SILENT);
             }
             // refresh when event has ended

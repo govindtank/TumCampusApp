@@ -97,7 +97,7 @@ public class CardsWidget extends AppWidgetProvider {
                     i.putExtras(extras);
                     context.startActivity(i);
                 } catch (URISyntaxException e) {
-                    Utils.log(e);
+                    Utils.INSTANCE.log(e);
                 }
             }
         }

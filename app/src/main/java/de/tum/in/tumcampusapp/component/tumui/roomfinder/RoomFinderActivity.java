@@ -75,7 +75,7 @@ public class RoomFinderActivity extends ActivityForSearchingInBackground<List<Ro
                                                       .fetchRooms(query);
             return Optional.of(rooms);
         } catch (IOException e) {
-            Utils.log(e);
+            Utils.INSTANCE.log(e);
         }
         return Optional.absent();
     }

@@ -52,7 +52,7 @@ public class WifiScanHandler extends Handler {
             WifiManager wifiManager = (WifiManager) context.getApplicationContext()
                                                            .getSystemService(Context.WIFI_SERVICE);
             wifiManager.startScan();
-            Utils.log("WifiScanHandler started");
+            Utils.INSTANCE.log("WifiScanHandler started");
         }
     }
 }

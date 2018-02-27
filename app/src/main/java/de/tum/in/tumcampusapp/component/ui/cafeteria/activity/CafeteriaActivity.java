@@ -129,7 +129,7 @@ public class CafeteriaActivity extends ActivityForDownloadingExternal implements
                 if (c != null) {
                     name.setText(c.getName());
                     address.setText(c.getAddress());
-                    dist.setText(Utils.formatDist(c.getDistance()));
+                    dist.setText(Utils.INSTANCE.formatDist(c.getDistance()));
                 }
 
                 return v;
@@ -148,7 +148,7 @@ public class CafeteriaActivity extends ActivityForDownloadingExternal implements
                             mCafeterias.addAll(it);
                             adapterCafeterias.notifyDataSetChanged();
                             setCurrentSelectedCafeteria(spinner);
-                        }, throwable -> Utils.logwithTag("CafeteriaActivity", throwable.getMessage())
+                        }, throwable -> Utils.INSTANCE.logwithTag("CafeteriaActivity", throwable.getMessage())
                 ));
     }
 

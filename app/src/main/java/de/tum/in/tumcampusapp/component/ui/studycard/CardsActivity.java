@@ -83,7 +83,7 @@ public class CardsActivity extends ActivityForLoadingInBackground<Void, List<Stu
             cards = TUMCabeClient.getInstance(this)
                                  .getStudyCards();
         } catch (IOException e) {
-            Utils.log(e);
+            Utils.INSTANCE.log(e);
         }
         return cards;
     }

@@ -135,7 +135,7 @@ public class ChatMessage {
         try {
             time = formatter.parse(this.getTimestamp());
         } catch (ParseException e) {
-            Utils.log(e);
+            Utils.INSTANCE.log(e);
         }
         return time;
     }

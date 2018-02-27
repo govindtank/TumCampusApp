@@ -19,13 +19,13 @@ public class BackgroundService extends JobIntentService {
     @Override
     public void onCreate() {
         super.onCreate();
-        Utils.log("BackgroundService has started");
+        Utils.INSTANCE.log("BackgroundService has started");
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Utils.log("BackgroundService has stopped");
+        Utils.INSTANCE.log("BackgroundService has stopped");
     }
 
     static void enqueueWork(Context context, Intent work) {

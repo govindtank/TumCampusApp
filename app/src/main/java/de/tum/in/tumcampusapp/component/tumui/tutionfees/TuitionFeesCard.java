@@ -116,7 +116,7 @@ public class TuitionFeesCard extends NotificationAwareCard {
             notificationBuilder.setContentText(mTuition.getSoll() + "€\n" + String.format(mContext.getString(R.string.reregister_todo), mTuition.getFrist()));
         }
         notificationBuilder.setSmallIcon(R.drawable.ic_notification);
-        notificationBuilder.setLargeIcon(Utils.getLargeIcon(mContext, R.drawable.ic_money));
+        notificationBuilder.setLargeIcon(Utils.INSTANCE.getLargeIcon(mContext, R.drawable.ic_money));
         Bitmap bm = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.wear_tuition_fee);
         notificationBuilder.extend(new NotificationCompat.WearableExtender().setBackground(bm));
         return notificationBuilder.build();

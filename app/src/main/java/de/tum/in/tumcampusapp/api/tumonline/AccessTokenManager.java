@@ -55,7 +55,7 @@ public class AccessTokenManager {
      * @return True, if access token is set
      */
     public boolean hasValidAccessToken() {
-        final String oldAccessToken = Utils.getSetting(context, Const.ACCESS_TOKEN, "");
+        final String oldAccessToken = Utils.INSTANCE.getSetting(context, Const.ACCESS_TOKEN, "");
         return oldAccessToken != null && oldAccessToken.length() > 2;
     }
 
@@ -70,37 +70,37 @@ public class AccessTokenManager {
     public boolean requestAccessToken(Activity activity, String lrzId) {
         try {
             if (!NetUtils.isConnected(context)) {
-                Utils.showToastOnUIThread(activity, R.string.no_internet_connection);
+                Utils.INSTANCE.showToastOnUIThread(activity, R.string.no_internet_connection);
                 return false;
             }
             // ok, do the request now
             String strAccessToken = this.generateAccessToken(lrzId);
-            Utils.log("AcquiredAccessToken = " + strAccessToken);
+            Utils.INSTANCE.log("AcquiredAccessToken = " + strAccessToken);
 
             // save access token to preferences
-            Utils.setSetting(context, Const.ACCESS_TOKEN, strAccessToken);
+            Utils.INSTANCE.setSetting(context, Const.ACCESS_TOKEN, strAccessToken);
 
             //Upload the secret to this new generated token
             AuthenticationManager am = new AuthenticationManager(activity);
             try {
                 am.uploadPublicKey();
             } catch (NoPublicKey noPublicKey) {
-                Utils.log(noPublicKey);
+                Utils.INSTANCE.log(noPublicKey);
             }
 
             return true;
         } catch (TUMOException ex) {
-            Utils.log(ex, context.getString(R.string.access_token_wasnt_generated) + ex.getMessage());
+            Utils.INSTANCE.log(ex, context.getString(R.string.access_token_wasnt_generated) + ex.getMessage());
             // set access token to null
-            Utils.setSetting(context, Const.ACCESS_TOKEN, null);
+            Utils.INSTANCE.setSetting(context, Const.ACCESS_TOKEN, null);
 
-            Utils.showToastOnUIThread(activity, ex.getMessage());
+            Utils.INSTANCE.showToastOnUIThread(activity, ex.getMessage());
         } catch (Exception ex) { //NOPMD
-            Utils.log(ex, context.getString(R.string.access_token_wasnt_generated));
+            Utils.INSTANCE.log(ex, context.getString(R.string.access_token_wasnt_generated));
             // set access token to null
-            Utils.setSetting(context, Const.ACCESS_TOKEN, null);
+            Utils.INSTANCE.setSetting(context, Const.ACCESS_TOKEN, null);
 
-            Utils.showToastOnUIThread(activity, R.string.access_token_wasnt_generated);
+            Utils.INSTANCE.showToastOnUIThread(activity, R.string.access_token_wasnt_generated);
         }
         return false;
     }

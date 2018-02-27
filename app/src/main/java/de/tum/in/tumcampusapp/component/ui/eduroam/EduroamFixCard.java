@@ -126,7 +126,7 @@ public class EduroamFixCard extends NotificationAwareCard {
         // Eduroam was configured by other university
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR2
                 && !isTumEduroam(eduroam.enterpriseConfig.getIdentity())) {
-            Utils.log("Eduroam wasn't configured at TUM");
+            Utils.INSTANCE.log("Eduroam wasn't configured at TUM");
             return true;
         }
 
@@ -180,8 +180,8 @@ public class EduroamFixCard extends NotificationAwareCard {
                 && !isValidSubjectMatchAPI18(eduroam)) {
                 errors.add(mContext.getString(R.string.wifi_dns_name_not_set));
             } else {
-                Utils.log("AltSubjectMatch: " + eduroam.enterpriseConfig.getAltSubjectMatch());
-                Utils.log("DomainSuffixMatch: " + eduroam.enterpriseConfig.getDomainSuffixMatch());
+                Utils.INSTANCE.log("AltSubjectMatch: " + eduroam.enterpriseConfig.getAltSubjectMatch());
+                Utils.INSTANCE.log("DomainSuffixMatch: " + eduroam.enterpriseConfig.getDomainSuffixMatch());
             }
         }
     }
@@ -197,7 +197,7 @@ public class EduroamFixCard extends NotificationAwareCard {
     @SuppressLint("NewApi")
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
     private boolean isValidSubjectMatchAPI18(WifiConfiguration eduroam) {
-        Utils.log("SubjectMatch: " + eduroam.enterpriseConfig.getSubjectMatch());
+        Utils.INSTANCE.log("SubjectMatch: " + eduroam.enterpriseConfig.getSubjectMatch());
         return eduroam.enterpriseConfig.getSubjectMatch()
                                        .equals(RADIUS_DNS);
     }

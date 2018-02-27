@@ -124,7 +124,7 @@ public class MVVCard extends NotificationAwareCard {
                     new NotificationCompat.Builder(mContext, Const.NOTIFICATION_CHANNEL_MVV)
                             .setContentTitle(d.getCountDown() + "min")
                             .setSmallIcon(R.drawable.ic_notification)
-                            .setLargeIcon(Utils.getLargeIcon(mContext, R.drawable.ic_mvv))
+                            .setLargeIcon(Utils.INSTANCE.getLargeIcon(mContext, R.drawable.ic_mvv))
                             .setContentText(d.getServingLine() + " " + d.getDirection());
             morePageNotification.addPage(pageNotification.build());
         }

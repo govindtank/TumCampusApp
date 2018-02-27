@@ -42,12 +42,12 @@ public class WifiMeasurementManager {
         tumCabeClient.createMeasurements(wifiMeasurements, new Callback<TUMCabeStatus>() {
             @Override
             public void onResponse(@NonNull Call<TUMCabeStatus> call, @NonNull Response<TUMCabeStatus> response) {
-                Utils.log("WifiMeasurements successfully sent to the server! " + response);
+                Utils.INSTANCE.log("WifiMeasurements successfully sent to the server! " + response);
             }
 
             @Override
             public void onFailure(@NonNull Call<TUMCabeStatus> call, @NonNull Throwable throwable) {
-                Utils.log("WifiMeasurements weren't sent to the server! " + throwable.getMessage());
+                Utils.INSTANCE.log("WifiMeasurements weren't sent to the server! " + throwable.getMessage());
             }
         });
     }
@@ -76,11 +76,11 @@ public class WifiMeasurementManager {
                 sendMeasurementsToRemote(wifiMeasurements);
                 successful = true;
             } catch (IOException e) {
-                Utils.log(e);
+                Utils.INSTANCE.log(e);
                 try {
                     Thread.sleep(waitTimeInMillis);
                 } catch (InterruptedException ie) {
-                    Utils.log(ie);
+                    Utils.INSTANCE.log(ie);
                 }
             }
             currentAttempts++;

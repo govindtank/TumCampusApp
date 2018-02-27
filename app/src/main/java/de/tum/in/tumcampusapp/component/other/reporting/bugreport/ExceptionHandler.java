@@ -164,7 +164,7 @@ public final class ExceptionHandler {
                         try {
                             Thread.sleep(rest);
                         } catch (InterruptedException e) {
-                            Utils.log(e);
+                            Utils.INSTANCE.log(e);
                         }
                     }
                     return null;
@@ -205,7 +205,7 @@ public final class ExceptionHandler {
             return sStackTraces;
         }
 
-        Utils.logv("Looking for exceptions in: " + G.filesPath);
+        Utils.INSTANCE.logv("Looking for exceptions in: " + G.filesPath);
 
         // Find list of .stacktrace files
         File dir = new File(G.filesPath + '/');
@@ -217,7 +217,7 @@ public final class ExceptionHandler {
 
         //Look into the files folder to see if there are any "*.stacktrace" files.
         String[] list = dir.list((dir1, name) -> name.endsWith(STACKTRACE_ENDING));
-        Utils.logv("Found " + list.length + " stacktrace(s)");
+        Utils.INSTANCE.logv("Found " + list.length + " stacktrace(s)");
 
         //Try to read all of them
         try {
@@ -244,7 +244,7 @@ public final class ExceptionHandler {
                     }
 
                     //Create the array containing the trace and the log file
-                    String[] a = {stacktrace.toString(), FileUtils.getStringFromFile(filePath + ".log")};
+                    String[] a = {stacktrace.toString(), FileUtils.INSTANCE.getStringFromFile(filePath + ".log")};
                     sStackTraces.add(a);
 
                 } catch (IOException e) {

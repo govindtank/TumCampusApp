@@ -40,7 +40,7 @@ public class StartSyncReceiver extends BroadcastReceiver {
         final boolean launch = intent.getBooleanExtra(Const.APP_LAUNCHES, false);
 
         // Look up background service settings
-        final boolean backgroundServicePermitted = Utils.isBackgroundServicePermitted(context);
+        final boolean backgroundServicePermitted = Utils.INSTANCE.isBackgroundServicePermitted(context);
 
         // Set AlarmNotification for next update, if background service is enabled
         if (backgroundServicePermitted) {
@@ -49,7 +49,7 @@ public class StartSyncReceiver extends BroadcastReceiver {
 
         // Start BackgroundService
         if (launch || backgroundServicePermitted) {
-            Utils.logv("Start background service...");
+            Utils.INSTANCE.logv("Start background service...");
             Intent i = new Intent();
             i.putExtra(Const.APP_LAUNCHES, launch);
             BackgroundService.enqueueWork(context, i);
@@ -58,7 +58,7 @@ public class StartSyncReceiver extends BroadcastReceiver {
 
         // Also start the SilenceService. It checks if it is enabled, so we don't need to
         SilenceService.enqueueWork(context, new Intent());
-        if (intent.getAction() != "android.net.wifi.WIFI_STATE_CHANGED" && Utils.getInternalSettingBool(context, Const.WIFI_SCANS_ALLOWED, false)) {
+        if (intent.getAction() != "android.net.wifi.WIFI_STATE_CHANGED" && Utils.INSTANCE.getInternalSettingBool(context, Const.WIFI_SCANS_ALLOWED, false)) {
             SendWifiMeasurementService.enqueueWork(context, new Intent());
         }
     }

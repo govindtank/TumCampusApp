@@ -67,7 +67,7 @@ public class PlansViewFragment extends Fragment {
     private final AsyncTask<PlanFile, Integer, Void> pdfDownloader = new AsyncTask<PlanFile, Integer, Void>() {
         @Override
         protected Void doInBackground(PlanFile... files) {
-            Utils.log("Starting download.");
+            Utils.INSTANCE.log("Starting download.");
             NetUtils netUtils = new NetUtils(getContext().getApplicationContext());
             int progressPerFile = 100 / files.length;
             int i = 0;
@@ -76,9 +76,9 @@ public class PlansViewFragment extends Fragment {
                     String localFile = fileDirectory + '/' + file.getLocalName();
                     netUtils.downloadToFile(file.getUrl(), localFile);
                     publishProgress((++i) * progressPerFile);
-                    Utils.log(localFile);
+                    Utils.INSTANCE.log(localFile);
                 } catch (IOException e) {
-                    Utils.log(e);
+                    Utils.INSTANCE.log(e);
                 }
             }
             return null;
@@ -157,7 +157,7 @@ public class PlansViewFragment extends Fragment {
 
     private void downloadFiles() {
         for (PlanFile file : PlanFile.values()) {
-            Utils.log(fileDirectory + "/" + file.getLocalName());
+            Utils.INSTANCE.log(fileDirectory + "/" + file.getLocalName());
             if (!(new File(fileDirectory + "/" + file.getLocalName())).exists()) {
                 displayDownloadDialog();
                 break;

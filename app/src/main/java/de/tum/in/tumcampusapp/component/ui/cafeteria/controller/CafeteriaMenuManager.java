@@ -109,7 +109,7 @@ public class CafeteriaMenuManager {
                 menuDao.insert(getFromJsonAddendum(beilagen.getJSONObject(j)));
             }
         } catch (JSONException e) {
-            Utils.log(e);
+            Utils.INSTANCE.log(e);
         }
         sync.replaceIntoDb(this);
         scheduleFoodAlarms(true);

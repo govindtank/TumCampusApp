@@ -69,7 +69,7 @@ public final class Util {
         int width = dm.widthPixels;
         int height = dm.heightPixels;
 
-        Utils.logv(Build.VERSION.RELEASE);
+        Utils.INSTANCE.logv(Build.VERSION.RELEASE);
 
         int orientation = display.getRotation();
 
@@ -106,7 +106,7 @@ public final class Util {
             return pm.getPackageInfo(c.getPackageName(), 0);
 
         } catch (PackageManager.NameNotFoundException e) {
-            Utils.log(e, "Error collecting trace information");
+            Utils.INSTANCE.log(e, "Error collecting trace information");
         }
         return null;
     }

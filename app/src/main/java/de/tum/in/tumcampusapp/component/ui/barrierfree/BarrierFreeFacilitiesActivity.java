@@ -90,7 +90,7 @@ public class BarrierFreeFacilitiesActivity extends ActivityForLoadingInBackgroun
                     return Optional.absent();
             }
         } catch (IOException e) {
-            Utils.log(e);
+            Utils.INSTANCE.log(e);
             return Optional.absent();
         }
 

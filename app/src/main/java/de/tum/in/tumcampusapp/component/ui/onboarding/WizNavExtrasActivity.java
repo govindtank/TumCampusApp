@@ -55,7 +55,7 @@ public class WizNavExtrasActivity extends ActivityForLoadingInBackground<Void, C
             try {
                 am.uploadPublicKey();
             } catch (NoPublicKey noPublicKey) {
-                Utils.log(noPublicKey);
+                Utils.INSTANCE.log(noPublicKey);
             }
 
             //Remember that we are only running through a limited setup
@@ -107,8 +107,8 @@ public class WizNavExtrasActivity extends ActivityForLoadingInBackground<Void, C
         }
 
         // Get the users lrzId and initialise chat member
-        ChatMember currentChatMember = new ChatMember(Utils.getSetting(this, Const.LRZ_ID, ""));
-        currentChatMember.setDisplayName(Utils.getSetting(this, Const.CHAT_ROOM_DISPLAY_NAME, ""));
+        ChatMember currentChatMember = new ChatMember(Utils.INSTANCE.getSetting(this, Const.LRZ_ID, ""));
+        currentChatMember.setDisplayName(Utils.INSTANCE.getSetting(this, Const.CHAT_ROOM_DISPLAY_NAME, ""));
 
         if (currentChatMember.getLrzId()
                              .equals("")) {
@@ -122,21 +122,21 @@ public class WizNavExtrasActivity extends ActivityForLoadingInBackground<Void, C
             member = TUMCabeClient.getInstance(this)
                                   .createMember(currentChatMember);
         } catch (IOException e) {
-            Utils.log(e);
-            Utils.showToastOnUIThread(this, R.string.error_setup_chat_member);
+            Utils.INSTANCE.log(e);
+            Utils.INSTANCE.showToastOnUIThread(this, R.string.error_setup_chat_member);
             return null;
         }
 
         //Catch a possible error, when we didn't get something returned
         if (member == null || member.getLrzId() == null) {
-            Utils.showToastOnUIThread(this, R.string.error_setup_chat_member);
+            Utils.INSTANCE.showToastOnUIThread(this, R.string.error_setup_chat_member);
             return null;
         }
 
         // Generate the private key and upload the public key to the server
         AuthenticationManager am = new AuthenticationManager(this);
         if (!am.generatePrivateKey(member)) {
-            Utils.showToastOnUIThread(this, getString(R.string.failure_uploading_public_key)); //We cannot continue if the upload of the Public Key does not work
+            Utils.INSTANCE.showToastOnUIThread(this, getString(R.string.failure_uploading_public_key)); //We cannot continue if the upload of the Public Key does not work
             return null;
         }
 
@@ -147,11 +147,11 @@ public class WizNavExtrasActivity extends ActivityForLoadingInBackground<Void, C
             new ChatRoomController(this).replaceIntoRooms(rooms);
 
             //Store that this key was activated
-            Utils.setInternalSetting(this, Const.PRIVATE_KEY_ACTIVE, true);
+            Utils.INSTANCE.setInternalSetting(this, Const.PRIVATE_KEY_ACTIVE, true);
 
             return member;
         } catch (IOException | NoPrivateKey e) {
-            Utils.log(e);
+            Utils.INSTANCE.log(e);
         }
 
         return null;
@@ -173,9 +173,9 @@ public class WizNavExtrasActivity extends ActivityForLoadingInBackground<Void, C
 
         if (!member.getLrzId()
                    .equals("")) {
-            Utils.setSetting(this, Const.GROUP_CHAT_ENABLED, groupChatMode.isChecked());
-            Utils.setSetting(this, Const.AUTO_JOIN_NEW_ROOMS, groupChatMode.isChecked());
-            Utils.setSetting(this, Const.CHAT_MEMBER, member);
+            Utils.INSTANCE.setSetting(this, Const.GROUP_CHAT_ENABLED, groupChatMode.isChecked());
+            Utils.INSTANCE.setSetting(this, Const.AUTO_JOIN_NEW_ROOMS, groupChatMode.isChecked());
+            Utils.INSTANCE.setSetting(this, Const.CHAT_MEMBER, member);
         }
         editor.apply();
 

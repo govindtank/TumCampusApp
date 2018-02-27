@@ -50,7 +50,7 @@ public class Update extends GenericNotification {
             return TUMCabeClient.getInstance(this.context)
                                 .getNotification(this.notification);
         } catch (IOException e) {
-            Utils.log(e);
+            Utils.INSTANCE.log(e);
             return null;
         }
     }

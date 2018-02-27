@@ -47,7 +47,7 @@ public class RSASigner {
         try {
             signer.initSign(privateKey);
         } catch (InvalidKeyException e) {
-            Utils.log(e);
+            Utils.INSTANCE.log(e);
             return null;
         }
 
@@ -56,7 +56,7 @@ public class RSASigner {
         try {
             signer.update(messageBytes);
         } catch (SignatureException e) {
-            Utils.log(e);
+            Utils.INSTANCE.log(e);
             return null;
         }
 
@@ -64,7 +64,7 @@ public class RSASigner {
         try {
             signature = signer.sign();
         } catch (SignatureException e) {
-            Utils.log(e);
+            Utils.INSTANCE.log(e);
             return null;
         }
 

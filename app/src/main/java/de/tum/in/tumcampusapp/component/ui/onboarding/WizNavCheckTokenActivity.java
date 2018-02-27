@@ -94,18 +94,18 @@ public class WizNavCheckTokenActivity extends ActivityForLoadingInBackground<Voi
                                   .get(0);
 
             // Save the name to preferences
-            Utils.setSetting(this, Const.CHAT_ROOM_DISPLAY_NAME, identity
+            Utils.INSTANCE.setSetting(this, Const.CHAT_ROOM_DISPLAY_NAME, identity
                     .toString());
 
             // Save the TUMOnline id to preferences
-            Utils.setSetting(this, Const.TUMO_PIDENT_NR, identity.getObfuscated_ids()
-                                                                 .getStudierende()); // Switch to identity.getObfuscated_id() in the future
-            Utils.setSetting(this, Const.TUMO_STUDENT_ID, identity.getObfuscated_ids()
-                                                                  .getStudierende());
-            Utils.setSetting(this, Const.TUMO_EXTERNAL_ID, identity.getObfuscated_ids()
-                                                                   .getExtern());
-            Utils.setSetting(this, Const.TUMO_EMPLOYEE_ID, identity.getObfuscated_ids()
-                                                                   .getBedienstete());
+            Utils.INSTANCE.setSetting(this, Const.TUMO_PIDENT_NR, identity.getObfuscated_ids()
+                                                                          .getStudierende()); // Switch to identity.getObfuscated_id() in the future
+            Utils.INSTANCE.setSetting(this, Const.TUMO_STUDENT_ID, identity.getObfuscated_ids()
+                                                                           .getStudierende());
+            Utils.INSTANCE.setSetting(this, Const.TUMO_EXTERNAL_ID, identity.getObfuscated_ids()
+                                                                            .getExtern());
+            Utils.INSTANCE.setSetting(this, Const.TUMO_EMPLOYEE_ID, identity.getObfuscated_ids()
+                                                                            .getBedienstete());
 
             return null;
         }
@@ -122,7 +122,7 @@ public class WizNavCheckTokenActivity extends ActivityForLoadingInBackground<Voi
             startActivity(new Intent(this, WizNavExtrasActivity.class));
             overridePendingTransition(R.anim.fadein, R.anim.fadeout);
         } else {
-            Utils.showToast(this, errorMessageStrResId);
+            Utils.INSTANCE.showToast(this, errorMessageStrResId);
             showLoadingEnded();
         }
     }

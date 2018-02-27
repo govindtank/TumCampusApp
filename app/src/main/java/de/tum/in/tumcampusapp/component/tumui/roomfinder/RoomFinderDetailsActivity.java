@@ -75,7 +75,7 @@ public class RoomFinderDetailsActivity
         room = (RoomFinderRoom) getIntent().getExtras()
                                            .getSerializable(EXTRA_ROOM_INFO);
         if (room == null) {
-            Utils.showToast(this, "No room information passed");
+            Utils.INSTANCE.showToast(this, "No room information passed");
             this.finish();
             return;
         }
@@ -220,7 +220,7 @@ public class RoomFinderDetailsActivity
                                  try {
                                      onMapListLoadFinished(Optional.of(response.body()));
                                  } catch (NullPointerException e) {
-                                     Utils.log(e);
+                                     Utils.INSTANCE.log(e);
                                      onMapListLoadFailed();
                                  }
                              }
@@ -231,7 +231,7 @@ public class RoomFinderDetailsActivity
                              }
                          });
         } catch (IOException e) {
-            Utils.log(e);
+            Utils.INSTANCE.log(e);
             onMapListLoadFailed();
         }
     }
@@ -269,7 +269,7 @@ public class RoomFinderDetailsActivity
                                      Optional<Geo> result = LocationManager.convertRoomFinderCoordinateToGeo(response.body());
                                      onGeoLoadFinished(result);
                                  } catch (NullPointerException e) {
-                                     Utils.log(e);
+                                     Utils.INSTANCE.log(e);
                                      onLoadGeoFailed();
                                  }
                              }
@@ -280,7 +280,7 @@ public class RoomFinderDetailsActivity
                              }
                          });
         } catch (IOException e) {
-            Utils.log(e);
+            Utils.INSTANCE.log(e);
             onLoadGeoFailed();
         }
     }
@@ -292,7 +292,7 @@ public class RoomFinderDetailsActivity
     private void onGeoLoadFinished(Optional<Geo> result) {
         showLoadingEnded();
         if (!result.isPresent()) {
-            Utils.showToastOnUIThread(RoomFinderDetailsActivity.this, R.string.no_map_available);
+            Utils.INSTANCE.showToastOnUIThread(RoomFinderDetailsActivity.this, R.string.no_map_available);
             return;
         }
 
@@ -313,7 +313,7 @@ public class RoomFinderDetailsActivity
         try {
             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.google.android.apps.maps")));
         } catch (ActivityNotFoundException e) {
-            Utils.log(e);
+            Utils.INSTANCE.log(e);
             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=com.google.android.apps.maps")));
         }
     }

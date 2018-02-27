@@ -18,7 +18,7 @@ public class NetworkChangeReceiver extends BroadcastReceiver {
             return;
         }
         if (info.isConnected()) {
-            Utils.log("WifiStateChange");
+            Utils.INSTANCE.log("WifiStateChange");
             WifiManager wm = (WifiManager) context.getApplicationContext()
                                                   .getSystemService(Context.WIFI_SERVICE);
             wm.startScan();

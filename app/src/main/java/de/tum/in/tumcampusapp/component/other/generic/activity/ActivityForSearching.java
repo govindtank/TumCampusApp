@@ -164,7 +164,7 @@ public abstract class ActivityForSearching extends ProgressActivity {
         mQuery = query;
         if (query.length() < mMinLength) {
             final String text = String.format(getString(R.string.min_search_len), mMinLength);
-            Utils.showToast(this, text);
+            Utils.INSTANCE.showToast(this, text);
             return;
         }
 

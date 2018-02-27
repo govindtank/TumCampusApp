@@ -124,7 +124,7 @@ public class OpeningHoursDetailFragment extends Fragment {
                .append(getString(R.string.website))
                .append("</a>");
             tv3.setMovementMethod(LinkMovementMethod.getInstance());
-            tv3.setText(Utils.fromHtml(url.toString()));
+            tv3.setText(Utils.INSTANCE.fromHtml(url.toString()));
         }
     }
 

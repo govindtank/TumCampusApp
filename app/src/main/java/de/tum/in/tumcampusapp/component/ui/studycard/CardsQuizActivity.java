@@ -56,7 +56,7 @@ public class CardsQuizActivity extends ActivityForLoadingInBackground<Void, List
             cards = TUMCabeClient.getInstance(this)
                                  .getStudyCards();
         } catch (IOException e) {
-            Utils.log(e);
+            Utils.INSTANCE.log(e);
         }
         return cards;
     }

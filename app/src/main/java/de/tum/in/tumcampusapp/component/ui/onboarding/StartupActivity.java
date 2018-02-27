@@ -89,28 +89,28 @@ public class StartupActivity extends AppCompatActivity {
         ImplicitCounter.submitCounter(this);
 
         // For compatibility reasons: big update happened with version 35
-        int prevVersion = Utils.getInternalSettingInt(this, Const.APP_VERSION, 35);
+        int prevVersion = Utils.INSTANCE.getInternalSettingInt(this, Const.APP_VERSION, 35);
 
         // get current app version
-        int currentVersion = Utils.getAppVersion(this);
+        int currentVersion = Utils.INSTANCE.getAppVersion(this);
         boolean newVersion = prevVersion < currentVersion;
         if (newVersion) {
             this.setupNewVersion();
-            Utils.setInternalSetting(this, Const.APP_VERSION, currentVersion);
+            Utils.INSTANCE.setInternalSetting(this, Const.APP_VERSION, currentVersion);
         }
 
         // Also First run wizard for setup of id and token
         // Check the flag if user wants the wizard to open at startup
-        boolean hideWizardOnStartup = Utils.getSettingBool(this, Const.HIDE_WIZARD_ON_STARTUP, false);
-        String lrzId = Utils.getSetting(this, Const.LRZ_ID, ""); // If new version and LRZ ID is empty, start the full wizard
+        boolean hideWizardOnStartup = Utils.INSTANCE.getSettingBool(this, Const.HIDE_WIZARD_ON_STARTUP, false);
+        String lrzId = Utils.INSTANCE.getSetting(this, Const.LRZ_ID, ""); // If new version and LRZ ID is empty, start the full wizard
 
         if (!hideWizardOnStartup || (newVersion && lrzId.isEmpty())) {
             startActivity(new Intent(this, WizNavStartActivity.class));
             finish();
             return;
         } else if (newVersion) {
-            Utils.setSetting(this, Const.BACKGROUND_MODE, true);
-            Utils.setSetting(this, CardManager.SHOW_SUPPORT, true);
+            Utils.INSTANCE.setSetting(this, Const.BACKGROUND_MODE, true);
+            Utils.INSTANCE.setSetting(this, CardManager.SHOW_SUPPORT, true);
 
             Intent intent = new Intent(this, WizNavExtrasActivity.class);
             intent.putExtra(Const.TOKEN_IS_SETUP, true);
@@ -120,7 +120,7 @@ public class StartupActivity extends AppCompatActivity {
         }
 
         // On first setup show remark that loading could last longer than normally
-        boolean isSetup = Utils.getInternalSettingBool(this, Const.EVERYTHING_SETUP, false);
+        boolean isSetup = Utils.INSTANCE.getInternalSettingBool(this, Const.EVERYTHING_SETUP, false);
         if (!isSetup) {
             this.runOnUiThread(() -> findViewById(R.id.startup_loading_first).setVisibility(View.VISIBLE));
         }
@@ -150,7 +150,7 @@ public class StartupActivity extends AppCompatActivity {
 
         // init easter egg (logo)
         ImageView tumLogo = findViewById(R.id.startup_tum_logo);
-        if (Utils.getSettingBool(this, Const.RAINBOW_MODE, false)) {
+        if (Utils.INSTANCE.getSettingBool(this, Const.RAINBOW_MODE, false)) {
             tumLogo.setImageResource(R.drawable.tum_logo_rainbow);
         } else {
             tumLogo.setImageResource(R.drawable.tum_logo);
@@ -164,13 +164,13 @@ public class StartupActivity extends AppCompatActivity {
                 tapCounter = 0;
 
                 // use the other logo and invert the setting
-                boolean rainbowEnabled = Utils.getSettingBool(this, Const.RAINBOW_MODE, false);
+                boolean rainbowEnabled = Utils.INSTANCE.getSettingBool(this, Const.RAINBOW_MODE, false);
                 if (rainbowEnabled) {
                     tumLogo.setImageResource(R.drawable.tum_logo);
                 } else {
                     tumLogo.setImageResource(R.drawable.tum_logo_rainbow);
                 }
-                Utils.setSetting(this, Const.RAINBOW_MODE, !rainbowEnabled);
+                Utils.INSTANCE.setSetting(this, Const.RAINBOW_MODE, !rainbowEnabled);
             }
         });
         background.setSoundEffectsEnabled(false);
@@ -308,10 +308,10 @@ public class StartupActivity extends AppCompatActivity {
         // delete tumcampus directory
         File f = new File(Environment.getExternalStorageDirectory()
                                      .getPath() + "/tumcampus");
-        FileUtils.deleteRecursive(f);
+        FileUtils.INSTANCE.deleteRecursive(f);
 
         // Load all on start
-        Utils.setInternalSetting(this, Const.EVERYTHING_SETUP, false);
+        Utils.INSTANCE.setInternalSetting(this, Const.EVERYTHING_SETUP, false);
 
         // rename hide_wizzard_on_startup
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);

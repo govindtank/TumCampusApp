@@ -169,7 +169,7 @@ public class StudyRoomsActivity extends ActivityForLoadingInBackground<Void, Voi
         try {
             sm.downloadFromExternal();
         } catch (JSONException e) {
-            Utils.log(e);
+            Utils.INSTANCE.log(e);
             // No error handling here
         }
         return null;

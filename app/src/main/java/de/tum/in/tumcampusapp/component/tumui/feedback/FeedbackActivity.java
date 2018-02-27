@@ -96,7 +96,7 @@ public class FeedbackActivity extends BaseActivity {
         includeEmail = findViewById(R.id.feedback_include_email);
         includeLocation = findViewById(R.id.feedback_include_location);
 
-        lrzId = Utils.getSetting(this, Const.LRZ_ID, "");
+        lrzId = Utils.INSTANCE.getSetting(this, Const.LRZ_ID, "");
 
         initTopicSpinner(savedInstanceState);
         initIncludeLocation(savedInstanceState);
@@ -163,14 +163,14 @@ public class FeedbackActivity extends BaseActivity {
     }
 
     private void saveLocation() {
-        Utils.log("saveLocation");
+        Utils.INSTANCE.log("saveLocation");
 
         locationManager = new LocationManager(this);
         locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location gps) {
                 location = gps; // just take the newest location
-                Utils.log("location (" + gps.getProvider() + "): " + location.getLatitude() + " " + location.getLongitude());
+                Utils.INSTANCE.log("location (" + gps.getProvider() + "): " + location.getLatitude() + " " + location.getLongitude());
             }
 
             @Override
@@ -183,7 +183,7 @@ public class FeedbackActivity extends BaseActivity {
 
             @Override
             public void onProviderDisabled(String s) {
-                Utils.log("Provider " + s + " disabled");
+                Utils.INSTANCE.log("Provider " + s + " disabled");
             }
         };
         locationManager.getLocationUpdates(locationListener);
@@ -193,7 +193,7 @@ public class FeedbackActivity extends BaseActivity {
     }
 
     private void stopListeningForLocation() {
-        Utils.log("Stop listening for location");
+        Utils.INSTANCE.log("Stop listening for location");
         if (locationManager != null && locationListener != null) {
             locationManager.stopReceivingUpdates(locationListener);
         }
@@ -361,14 +361,14 @@ public class FeedbackActivity extends BaseActivity {
                     Success success = response.body();
                     if (success != null && success.wasSuccessfullySent()) {
                         sentCount++;
-                        Utils.log(success.getSuccess());
+                        Utils.INSTANCE.log(success.getSuccess());
                         if (sentCount == picPaths.size() + 1) {
                             progress.cancel();
                             finish();
                             Toast.makeText(feedbackView.getContext(), R.string.feedback_send_success, Toast.LENGTH_SHORT)
                                  .show();
                         }
-                        Utils.log("sent " + sentCount + " of " + (picPaths.size() + 1) + " message parts");
+                        Utils.INSTANCE.log("sent " + sentCount + " of " + (picPaths.size() + 1) + " message parts");
                     } else {
                         showErrorDialog();
                     }
@@ -481,9 +481,9 @@ public class FeedbackActivity extends BaseActivity {
         try {
             Bitmap bitmap = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), src);
             ByteArrayOutputStream out = new ByteArrayOutputStream();
-            Utils.log("img before: " + bitmap.getWidth() + " x " + bitmap.getHeight());
+            Utils.INSTANCE.log("img before: " + bitmap.getWidth() + " x " + bitmap.getHeight());
             bitmap = getResizedBitmap(bitmap, 1000);
-            Utils.log("img after: " + bitmap.getWidth() + " x " + bitmap.getHeight());
+            Utils.INSTANCE.log("img after: " + bitmap.getWidth() + " x " + bitmap.getHeight());
             bitmap.compress(Bitmap.CompressFormat.JPEG, Const.FEEDBACK_IMG_COMPRESSION_QUALITY, out);
             FileOutputStream fileOut = new FileOutputStream(destination);
             fileOut.write(out.toByteArray());
@@ -532,7 +532,7 @@ public class FeedbackActivity extends BaseActivity {
             }
             // Continue only if the File was successfully created
             if (photoFile != null) {
-                Utils.log(getExternalFilesDir(Environment.DIRECTORY_PICTURES).getAbsolutePath());
+                Utils.INSTANCE.log(getExternalFilesDir(Environment.DIRECTORY_PICTURES).getAbsolutePath());
                 Uri photoURI = FileProvider.getUriForFile(this,
                                                           "de.tum.in.tumcampusapp.fileprovider",
                                                           photoFile);

@@ -112,7 +112,7 @@ public class PersonsDetailsActivity extends ActivityForAccessingTumOnline<Employ
         // make sure not both person is not null (error occurred)
         if (person == null) {
             // no query text specified
-            Utils.showToast(this, R.string.no_person_set);
+            Utils.INSTANCE.showToast(this, R.string.no_person_set);
             return;
         }
 
@@ -219,7 +219,7 @@ public class PersonsDetailsActivity extends ActivityForAccessingTumOnline<Employ
                 }
             }
         }
-        tvDetails2.setText(Utils.fromHtml(contentText.toString()),
+        tvDetails2.setText(Utils.INSTANCE.fromHtml(contentText.toString()),
                            TextView.BufferType.SPANNABLE);
 
         // start new section
@@ -252,7 +252,7 @@ public class PersonsDetailsActivity extends ActivityForAccessingTumOnline<Employ
         contentText.appendField(getString(R.string.add_info), employee
                 .getBusinessContact()
                 .getAdditionalInfo());
-        tvDetails3.setText(Utils.fromHtml(contentText.toString()),
+        tvDetails3.setText(Utils.INSTANCE.fromHtml(contentText.toString()),
                            TextView.BufferType.SPANNABLE);
 
         // start new section
@@ -271,7 +271,7 @@ public class PersonsDetailsActivity extends ActivityForAccessingTumOnline<Employ
                                                                                                 .getNumber() + ')');
         }
 
-        tvDetails4.setText(Utils.fromHtml(contentText.toString()),
+        tvDetails4.setText(Utils.INSTANCE.fromHtml(contentText.toString()),
                            TextView.BufferType.SPANNABLE);
 
     }
@@ -401,16 +401,16 @@ public class PersonsDetailsActivity extends ActivityForAccessingTumOnline<Employ
             try {
                 stream.flush();
             } catch (IOException e) {
-                Utils.log(e);
+                Utils.INSTANCE.log(e);
             }
         }
 
         // Executing all the insert operations as a single database transaction
         try {
             getContentResolver().applyBatch(ContactsContract.AUTHORITY, ops);
-            Utils.showToast(this, R.string.contact_added);
+            Utils.INSTANCE.showToast(this, R.string.contact_added);
         } catch (RemoteException | OperationApplicationException e) {
-            Utils.log(e);
+            Utils.INSTANCE.log(e);
         }
     }
 

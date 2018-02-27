@@ -115,7 +115,7 @@ public final class DateUtils {
             SimpleDateFormat formatter = new SimpleDateFormat(DateUtils.FORMAT_SQL, Locale.ENGLISH); // 2014-06-30 16:31:57
             return formatter.parse(datetime);
         } catch (ParseException e) {
-            Utils.log("Parsing SQL date failed");
+            Utils.INSTANCE.log("Parsing SQL date failed");
         }
         return null;
     }
@@ -128,7 +128,7 @@ public final class DateUtils {
             SimpleDateFormat formatter = new SimpleDateFormat(FORMAT_ISO, Locale.ENGLISH);
             return formatter.parse(datetime);
         } catch (ParseException e) {
-            Utils.log("Parsing SQL date failed");
+            Utils.INSTANCE.log("Parsing SQL date failed");
         }
         return null;
     }
@@ -154,7 +154,7 @@ public final class DateUtils {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
             return dateFormat.parse(str);
         } catch (ParseException e) {
-            Utils.log(e, str);
+            Utils.INSTANCE.log(e, str);
         }
         return new Date();
     }
@@ -193,7 +193,7 @@ public final class DateUtils {
         try {
             date = format.parse(str);
         } catch (ParseException e) {
-            Utils.log(e, str);
+            Utils.INSTANCE.log(e, str);
         }
         return date;
     }

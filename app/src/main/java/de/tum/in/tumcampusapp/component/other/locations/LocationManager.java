@@ -93,7 +93,7 @@ public class LocationManager {
         }
 
         // If location services are not available use default location if set
-        final String defaultCampus = Utils.getSetting(mContext, Const.DEFAULT_CAMPUS, "G");
+        final String defaultCampus = Utils.INSTANCE.getSetting(mContext, Const.DEFAULT_CAMPUS, "G");
         if (!"X".equals(defaultCampus)) {
             for (int i = 0; i < CAMPUS_SHORT.length; i++) {
                 if (CAMPUS_SHORT[i].equals(defaultCampus)) {
@@ -279,7 +279,7 @@ public class LocationManager {
         if (ConnectionResult.SUCCESS == resultCode) {
             return true;
         } else {
-            Utils.log("Google Play services is NOT available.");
+            Utils.INSTANCE.log("Google Play services is NOT available.");
             return false;
         }
     }
@@ -382,7 +382,7 @@ public class LocationManager {
 
             return Optional.of(result);
         } catch (NullPointerException | NumberFormatException e) {
-            Utils.log(e);
+            Utils.INSTANCE.log(e);
         }
 
         return Optional.absent();
@@ -400,7 +400,7 @@ public class LocationManager {
                                                            .fetchCoordinates(archId);
             return convertRoomFinderCoordinateToGeo(coordinate);
         } catch (IOException e) {
-            Utils.log(e);
+            Utils.INSTANCE.log(e);
         }
 
         return Optional.absent();
@@ -433,7 +433,7 @@ public class LocationManager {
             }
 
         } catch (IOException | NullPointerException e) {
-            Utils.log(e);
+            Utils.INSTANCE.log(e);
         }
 
         return Optional.absent();
@@ -462,7 +462,7 @@ public class LocationManager {
                 }
 
             } catch (IOException e) {
-                Utils.log(e);
+                Utils.INSTANCE.log(e);
                 return new ArrayList<>();
             }
         }

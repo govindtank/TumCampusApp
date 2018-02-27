@@ -237,7 +237,7 @@ public class TransportController implements Card.ProvidesCard {
                                                                          .escape(stationID);
 
             String query = DEPARTURE_QUERY_CONST + language + '&' + departureQuery;
-            Utils.logv(query);
+            Utils.INSTANCE.logv(query);
             NetUtils net = new NetUtils(context);
 
             // Download departures
@@ -272,7 +272,7 @@ public class TransportController implements Card.ProvidesCard {
             Collections.sort(result, (lhs, rhs) -> lhs.getCountDown() - rhs.getCountDown());
         } catch (JSONException e) {
             //We got no valid JSON, mvg-live is probably bugged
-            Utils.log(e, ERROR_INVALID_JSON + DEPARTURE_QUERY);
+            Utils.INSTANCE.log(e, ERROR_INVALID_JSON + DEPARTURE_QUERY);
         }
         return result;
     }
@@ -284,7 +284,7 @@ public class TransportController implements Card.ProvidesCard {
      * @return List of StationResult
      */
     public static List<StationResult> getStationsFromExternal(Context context, String prefix) {
-        prefix = Utils.escapeUmlauts(prefix);
+        prefix = Utils.INSTANCE.escapeUmlauts(prefix);
         try {
             String language = LANGUAGE + Locale.getDefault()
                                                .getLanguage();
@@ -293,7 +293,7 @@ public class TransportController implements Card.ProvidesCard {
                                                                     .escape(prefix);
 
             String query = STATION_SEARCH_CONST + language + '&' + stationQuery;
-            Utils.log(query);
+            Utils.INSTANCE.log(query);
             NetUtils net = new NetUtils(context);
 
             // Download possible stations
@@ -327,7 +327,7 @@ public class TransportController implements Card.ProvidesCard {
 
             return results;
         } catch (JSONException e) {
-            Utils.log(e, ERROR_INVALID_JSON + STATION_SEARCH);
+            Utils.INSTANCE.log(e, ERROR_INVALID_JSON + STATION_SEARCH);
         }
         return Collections.emptyList();
     }

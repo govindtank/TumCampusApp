@@ -69,7 +69,7 @@ public class PdfViewFragment extends Fragment {
             return firstFourChars.toString()
                                  .equals("%PDF");
         } catch (IOException e) {
-            Utils.log(e);
+            Utils.INSTANCE.log(e);
             return false;
         }
     }

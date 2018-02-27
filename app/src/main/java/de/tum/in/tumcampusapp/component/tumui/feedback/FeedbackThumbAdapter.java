@@ -50,7 +50,7 @@ public class FeedbackThumbAdapter extends RecyclerView.Adapter<FeedbackThumbAdap
             Bitmap bitmap = createThumb(holder.imageView, position);
 
             if (bitmap == null) {
-                Utils.log("Image removed from feedback (thumbnail couldn't be read)");
+                Utils.INSTANCE.log("Image removed from feedback (thumbnail couldn't be read)");
                 new File(paths.get(position)).delete();
                 paths.remove(position);
                 thumbs.remove(position);

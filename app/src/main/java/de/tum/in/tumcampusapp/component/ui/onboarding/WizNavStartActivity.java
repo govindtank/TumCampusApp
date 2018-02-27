@@ -36,7 +36,7 @@ public class WizNavStartActivity extends ActivityForLoadingInBackground<String, 
         findViewById(R.id.wizard_start_layout).requestFocus();
 
         editTxtLrzId = findViewById(R.id.lrz_id);
-        editTxtLrzId.setText(Utils.getSetting(this, Const.LRZ_ID, ""));
+        editTxtLrzId.setText(Utils.INSTANCE.getSetting(this, Const.LRZ_ID, ""));
     }
 
     /**
@@ -78,12 +78,12 @@ public class WizNavStartActivity extends ActivityForLoadingInBackground<String, 
 
         // check if lrz could be valid?
         if (!enteredId.matches(Const.TUM_ID_PATTERN)) {
-            Utils.showToast(this, R.string.error_lrz_wrong);
+            Utils.INSTANCE.showToast(this, R.string.error_lrz_wrong);
             return;
         }
 
         lrzId = enteredId;
-        Utils.setSetting(this, Const.LRZ_ID, lrzId);
+        Utils.INSTANCE.setSetting(this, Const.LRZ_ID, lrzId);
 
         // is access token already set?
         if (accessTokenManager.hasValidAccessToken()) {
@@ -156,7 +156,7 @@ public class WizNavStartActivity extends ActivityForLoadingInBackground<String, 
         }
 
         if ("0".equals(Campus)) {
-            Utils.setSetting(getApplicationContext(), Const.DEFAULT_CAMPUS, Campus);
+            Utils.INSTANCE.setSetting(getApplicationContext(), Const.DEFAULT_CAMPUS, Campus);
         }
     }
 

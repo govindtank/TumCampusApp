@@ -74,7 +74,7 @@ public abstract class ProgressActivity extends BaseActivity implements SwipeRefr
         }
 
         if (progressLayout == null) {
-            Utils.log("Cannot find layouts, did you forget to provide all_error_layout?");
+            Utils.INSTANCE.log("Cannot find layouts, did you forget to provide all_error_layout?");
         }
     }
 
@@ -142,7 +142,7 @@ public abstract class ProgressActivity extends BaseActivity implements SwipeRefr
         showLoadingEnded();
         noTokenLayout.setVisibility(View.VISIBLE);
         allErrorsLayout.setVisibility(View.VISIBLE);
-        Utils.log("No token was set");
+        Utils.INSTANCE.log("No token was set");
     }
 
     /**

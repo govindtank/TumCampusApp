@@ -63,7 +63,7 @@ public class CurriculaDetailsActivity extends ActivityForLoadingInBackground<Str
         if (!results.isPresent() || !css.isPresent()) {
             return Optional.absent();
         }
-        String text = Utils.buildHTMLDocument(css.get(), "<div id=\"maincontent\"><div class=\"inner\">" + results.get() + "</div></div>");
+        String text = Utils.INSTANCE.buildHTMLDocument(css.get(), "<div id=\"maincontent\"><div class=\"inner\">" + results.get() + "</div></div>");
         return Optional.of(text.replace("href=\"fuer-studierende-der-tum", "href=\"http://www.in.tum.de/fuer-studierende-der-tum"));
     }
 
@@ -77,7 +77,7 @@ public class CurriculaDetailsActivity extends ActivityForLoadingInBackground<Str
         Optional<String> text = net.downloadStringAndCache(url, CacheManager.VALIDITY_ONE_MONTH, false);
 
         if (text.isPresent()) {
-            return Optional.of(Utils.cutText(text.get(), "<!--TYPO3SEARCH_begin-->", "<!--TYPO3SEARCH_end-->"));
+            return Optional.of(Utils.INSTANCE.cutText(text.get(), "<!--TYPO3SEARCH_begin-->", "<!--TYPO3SEARCH_end-->"));
         }
         if (NetUtils.isConnected(this)) {
             showError(R.string.something_wrong);

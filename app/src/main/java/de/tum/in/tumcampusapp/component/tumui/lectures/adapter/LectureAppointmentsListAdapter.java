@@ -116,7 +116,7 @@ public class LectureAppointmentsListAdapter extends BaseAdapter {
                     output.append("</font>");
                 }
 
-                holder.tvTerminZeit.setText(Utils.fromHtml(output.toString()));
+                holder.tvTerminZeit.setText(Utils.INSTANCE.fromHtml(output.toString()));
 
             } catch (ParseException e) {
                 holder.tvTerminZeit.setText(String.format("%s - %s",

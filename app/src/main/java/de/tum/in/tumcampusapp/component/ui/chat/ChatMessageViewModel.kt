@@ -47,7 +47,7 @@ class ChatMessageViewModel(private val localRepository: ChatMessageLocalReposito
                     .subscribeOn(Schedulers.computation())
                     .flatMap { remoteRepository.getMessages(roomId, messageId, verification) }
                     .observeOn(Schedulers.io())
-                    .doOnError { Utils.logwithTag("ChatMessageViewModel", it.message) }
+                    .doOnError { Utils.logwithTag("ChatMessageViewModel", it.message.orEmpty()) }
                     .subscribe({ t ->
                         t.forEach { localRepository.replaceMessage(it) }
                     })
@@ -58,7 +58,7 @@ class ChatMessageViewModel(private val localRepository: ChatMessageLocalReposito
                     .subscribeOn(Schedulers.computation())
                     .flatMap { remoteRepository.getNewMessages(roomId, verification) }
                     .observeOn(Schedulers.io())
-                    .doOnError { Utils.logwithTag("ChatMessageViewModel", it.message) }
+                    .doOnError { Utils.logwithTag("ChatMessageViewModel", it.message.orEmpty()) }
                     .subscribe({ t ->
                         t.forEach { localRepository.replaceMessage(it) }
                     })
@@ -69,14 +69,14 @@ class ChatMessageViewModel(private val localRepository: ChatMessageLocalReposito
                     .subscribeOn(Schedulers.computation())
                     .flatMap { remoteRepository.sendMessage(roomId, chatMessage) }
                     .observeOn(Schedulers.io())
-                    .doOnError { Utils.logwithTag("ChatMessageViewModel", it.message) }
+                    .doOnError { Utils.logwithTag("ChatMessageViewModel", it.message.orEmpty()) }
                     .subscribe({
                         it.sendingStatus = ChatMessage.STATUS_SENT
                         localRepository.replaceMessage(it)
 
                         // Send broadcast to eventually open ChatActivity
                         val extras = Bundle()
-                        extras.putSerializable("GCMChat", GCMChat(it.getRoom(), it.getMember().id, 0))
+                        extras.putSerializable("GCMChat", GCMChat(it.room, it.member.id, 0))
                         LocalBroadcastManager.getInstance(context).sendBroadcast(Intent("chat-message-received").putExtras(extras))
                     })
             )

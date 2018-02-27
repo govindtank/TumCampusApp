@@ -18,13 +18,13 @@ public class FillCacheService extends JobIntentService {
     @Override
     public void onCreate() {
         super.onCreate();
-        Utils.logv("FillCacheService has started");
+        Utils.INSTANCE.logv("FillCacheService has started");
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Utils.logv("FillCacheService has stopped");
+        Utils.INSTANCE.logv("FillCacheService has stopped");
     }
 
     static void enqueueWork(Context context, Intent work) {

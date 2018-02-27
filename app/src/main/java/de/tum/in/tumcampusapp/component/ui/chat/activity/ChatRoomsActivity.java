@@ -114,7 +114,7 @@ public class ChatRoomsActivity extends ActivityForLoadingInBackground<Void, List
      */
     private void populateCurrentChatMember() {
         if (currentChatMember == null) {
-            currentChatMember = Utils.getSetting(this, Const.CHAT_MEMBER, ChatMember.class);
+            currentChatMember = Utils.INSTANCE.getSetting(this, Const.CHAT_MEMBER, ChatMember.class);
         }
     }
 
@@ -159,7 +159,7 @@ public class ChatRoomsActivity extends ActivityForLoadingInBackground<Void, List
             if (name.charAt(3) == ':') {
                 createOrJoinChatRoom(name);
             } else {
-                Utils.showToast(this, R.string.invalid_chat_room);
+                Utils.INSTANCE.showToast(this, R.string.invalid_chat_room);
             }
         }
     }
@@ -200,11 +200,11 @@ public class ChatRoomsActivity extends ActivityForLoadingInBackground<Void, List
      */
     private void createOrJoinChatRoom(String name) {
         if (this.currentChatMember == null) {
-            Utils.showToast(this, getString(R.string.chat_not_setup));
+            Utils.INSTANCE.showToast(this, getString(R.string.chat_not_setup));
             return;
         }
 
-        Utils.logv("create or join chat room " + name);
+        Utils.INSTANCE.logv("create or join chat room " + name);
         currentChatRoom = new ChatRoom(name);
 
         try {
@@ -213,12 +213,12 @@ public class ChatRoomsActivity extends ActivityForLoadingInBackground<Void, List
                              @Override
                              public void onResponse(Call<ChatRoom> call, Response<ChatRoom> response) {
                                  if (!response.isSuccessful()) {
-                                     Utils.logv("Error creating&joining chat room: " + response.message());
+                                     Utils.INSTANCE.logv("Error creating&joining chat room: " + response.message());
                                      return;
                                  }
 
                                  // The POST request is successful: go to room. API should have auto joined it
-                                 Utils.logv("Success creating&joining chat room: " + response.body());
+                                 Utils.INSTANCE.logv("Success creating&joining chat room: " + response.body());
                                  currentChatRoom = response.body();
 
                                  manager.join(currentChatRoom);
@@ -231,15 +231,15 @@ public class ChatRoomsActivity extends ActivityForLoadingInBackground<Void, List
 
                                      runOnUiThread(() -> {
                                          chatRoomAdapter.updateRooms(rooms);
-                                         Utils.showToast(ChatRoomsActivity.this, R.string.joined_chat_room);
+                                         Utils.INSTANCE.showToast(ChatRoomsActivity.this, R.string.joined_chat_room);
                                      });
                                  }
                              }
 
                              @Override
                              public void onFailure(Call<ChatRoom> call, Throwable t) {
-                                 Utils.log(t, "Failure creating/joining chat room - trying to GET it from the server");
-                                 Utils.showToastOnUIThread(ChatRoomsActivity.this, R.string.activate_key);
+                                 Utils.INSTANCE.log(t, "Failure creating/joining chat room - trying to GET it from the server");
+                                 Utils.INSTANCE.showToastOnUIThread(ChatRoomsActivity.this, R.string.activate_key);
                              }
                          });
         } catch (NoPrivateKey noPrivateKey) {
@@ -267,7 +267,7 @@ public class ChatRoomsActivity extends ActivityForLoadingInBackground<Void, List
             } catch (NoPrivateKey e) {
                 this.finish();
             } catch (IOException e) {
-                Utils.log(e);
+                Utils.INSTANCE.log(e);
             }
         }
         return manager.getAllByStatus(mCurrentMode);

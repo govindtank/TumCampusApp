@@ -66,7 +66,7 @@ public class SendMessageService extends JobIntentService {
 
                     // Send the message to the server
                     chatMessageViewModel.sendMessage(message.getRoom(), message, this.getApplicationContext());
-                    Utils.logv("successfully sent message: " + message.getText());
+                    Utils.INSTANCE.logv("successfully sent message: " + message.getText());
                 }
 
                 //Exit the loop
@@ -74,7 +74,7 @@ public class SendMessageService extends JobIntentService {
             } catch (NoPrivateKey noPrivateKey) {
                 return; //Nothing can be done, just exit
             } catch (Exception e) {
-                Utils.log(e);
+                Utils.INSTANCE.log(e);
                 numberOfAttempts++;
             }
 
@@ -82,7 +82,7 @@ public class SendMessageService extends JobIntentService {
             try {
                 Thread.sleep(5000);
             } catch (InterruptedException e) {
-                Utils.log(e);
+                Utils.INSTANCE.log(e);
             }
         }
     }

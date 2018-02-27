@@ -114,12 +114,12 @@ public class NewsController implements Card.ProvidesCard {
      * @return List of News
      */
     public List<News> getAllFromDb(Context context) {
-        int selectedNewspread = Integer.parseInt(Utils.getSetting(mContext, "news_newspread", "7"));
+        int selectedNewspread = Integer.parseInt(Utils.INSTANCE.getSetting(mContext, "news_newspread", "7"));
         List<NewsSources> newsSources = getNewsSources();
         Collection<Integer> newsSourceIds = new ArrayList<>();
         for (NewsSources newsSource : newsSources) {
             int id = newsSource.getId();
-            boolean show = Utils.getSettingBool(context, "news_source_" + id, id <= 7);
+            boolean show = Utils.INSTANCE.getSettingBool(context, "news_source_" + id, id <= 7);
             if (show) {
                 newsSourceIds.add(id);
             }
@@ -133,7 +133,7 @@ public class NewsController implements Card.ProvidesCard {
      * @return index of the newest item that is older than 'now' - 1
      */
     public int getTodayIndex() {
-        int selectedNewspread = Integer.parseInt(Utils.getSetting(mContext, "news_newspread", "7"));
+        int selectedNewspread = Integer.parseInt(Utils.INSTANCE.getSetting(mContext, "news_newspread", "7"));
         List<News> news = newsDao.getNewer(selectedNewspread);
         return news.size() == 0 ? 0 : news.size() - 1;
     }
@@ -144,7 +144,7 @@ public class NewsController implements Card.ProvidesCard {
     }
 
     public List<NewsSources> getNewsSources() {
-        String selectedNewspread = Utils.getSetting(mContext, "news_newspread", "7");
+        String selectedNewspread = Utils.INSTANCE.getSetting(mContext, "news_newspread", "7");
         return newsSourcesDao.getNewsSources(selectedNewspread);
     }
 
@@ -163,7 +163,7 @@ public class NewsController implements Card.ProvidesCard {
         List<NewsSources> newsSources = getNewsSources();
         for (NewsSources newsSource : newsSources) {
             Integer id = newsSource.getId();
-            if (Utils.getSettingBool(context, "card_news_source_" + id, true)) {
+            if (Utils.INSTANCE.getSettingBool(context, "card_news_source_" + id, true)) {
                 sources.add(id);
             }
         }
@@ -180,7 +180,7 @@ public class NewsController implements Card.ProvidesCard {
         Collection<Integer> sources = getActiveSources(context);
 
         List<News> news;
-        if (Utils.getSettingBool(context, "card_news_latest_only", true)) {
+        if (Utils.INSTANCE.getSettingBool(context, "card_news_latest_only", true)) {
             news = newsDao.getBySourcesLatest(sources.toArray(new Integer[sources.size()]));
         } else {
             news = newsDao.getBySources(sources.toArray(new Integer[sources.size()]));

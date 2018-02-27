@@ -100,11 +100,11 @@ public class EduroamController {
         int networkId;
         if (update) {
             networkId = wifiManager.updateNetwork(conf);
-            Utils.log("deleted " + conf.networkId);
+            Utils.INSTANCE.log("deleted " + conf.networkId);
         } else {
             networkId = wifiManager.addNetwork(conf);
         }
-        Utils.log("added " + networkId);
+        Utils.INSTANCE.log("added " + networkId);
 
         //Check if update successful
         if (networkId == -1) {
@@ -161,7 +161,7 @@ public class EduroamController {
                 }
             }
         } catch (Exception e) {
-            Utils.log(e);
+            Utils.INSTANCE.log(e);
             return false;
         }
         return true;

@@ -36,7 +36,7 @@ public class RSASignerTestCase {
             PKCS8EncodedKeySpec privateKeySpec = new PKCS8EncodedKeySpec(privateKeyBytes);
             return keyFactory.generatePrivate(privateKeySpec);
         } catch (InvalidKeySpecException e) {
-            Utils.log(e);
+            Utils.INSTANCE.log(e);
         }
         return null;
     }

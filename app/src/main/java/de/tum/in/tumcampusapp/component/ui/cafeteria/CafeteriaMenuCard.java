@@ -143,7 +143,7 @@ public class CafeteriaMenuCard extends NotificationAwareCard {
                     .replaceAll("")
                     .trim());
             pageNotification.setSmallIcon(R.drawable.ic_notification);
-            pageNotification.setLargeIcon(Utils.getLargeIcon(mContext, R.drawable.ic_cutlery));
+            pageNotification.setLargeIcon(Utils.INSTANCE.getLargeIcon(mContext, R.drawable.ic_cutlery));
 
             StringBuilder content = new StringBuilder(menu.getName());
             if (rolePrices.containsKey(menu.getTypeLong())) {

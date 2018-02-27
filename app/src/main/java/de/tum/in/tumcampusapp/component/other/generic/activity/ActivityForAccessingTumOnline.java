@@ -72,7 +72,7 @@ public abstract class ActivityForAccessingTumOnline<T> extends ProgressActivity 
         if (accessToken == null) {
             showNoTokenLayout();
         } else {
-            Utils.logv("TUMOnline token is <" + accessToken + ">");
+            Utils.INSTANCE.logv("TUMOnline token is <" + accessToken + ">");
             showLoadingStart();
             requestHandler.setForce(force);
             requestHandler.fetchInteractive(this, this);

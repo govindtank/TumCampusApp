@@ -76,7 +76,7 @@ public class TumManager {
             Error res = new Persister().read(Error.class, data);
             msg = res.getMessage();
         } catch (Exception e) {
-            Utils.log(e);
+            Utils.INSTANCE.log(e);
         }
 
         //Enter it into the Database

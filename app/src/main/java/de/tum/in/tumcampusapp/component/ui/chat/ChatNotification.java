@@ -69,7 +69,7 @@ public class ChatNotification extends GenericNotification {
         try {
             this.prepare();
         } catch (IOException e) {
-            Utils.log(e);
+            Utils.INSTANCE.log(e);
         }
     }
 
@@ -89,15 +89,15 @@ public class ChatNotification extends GenericNotification {
         try {
             this.prepare();
         } catch (IOException e) {
-            Utils.log(e);
+            Utils.INSTANCE.log(e);
         }
     }
 
     private void prepare() throws IOException {
-        Utils.logv("Received GCM notification: room=" + this.extras.getRoom() + " member=" + this.extras.getMember() + " message=" + this.extras.getMessage());
+        Utils.INSTANCE.logv("Received GCM notification: room=" + this.extras.getRoom() + " member=" + this.extras.getMember() + " message=" + this.extras.getMessage());
 
         // Get the data necessary for the ChatActivity
-        ChatMember member = Utils.getSetting(context, Const.CHAT_MEMBER, ChatMember.class);
+        ChatMember member = Utils.INSTANCE.getSetting(context, Const.CHAT_MEMBER, ChatMember.class);
         chatRoom = TUMCabeClient.getInstance(context)
                                 .getChatRoom(this.extras.getRoom());
 
@@ -126,7 +126,7 @@ public class ChatNotification extends GenericNotification {
             sBuilder.addNextIntent(new Intent(context, ChatRoomsActivity.class));
             sBuilder.addNextIntent(notificationIntent);
         } catch (NoPrivateKey noPrivateKey) {
-            Utils.log(noPrivateKey);
+            Utils.INSTANCE.log(noPrivateKey);
         }
     }
 
@@ -152,7 +152,7 @@ public class ChatNotification extends GenericNotification {
             return null;
         }
 
-        if (Utils.getSettingBool(context, "card_chat_phone", true) && this.extras.getMessage() == -1) {
+        if (Utils.INSTANCE.getSettingBool(context, "card_chat_phone", true) && this.extras.getMessage() == -1) {
 
             PendingIntent contentIntent = sBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_ONE_SHOT);
 

@@ -205,7 +205,7 @@ public class CacheManager {
                 result = c.getString(0);
             }
         } catch (SQLiteException e) {
-            Utils.log(e);
+            Utils.INSTANCE.log(e);
         }
         return Optional.fromNullable(result);
     }
@@ -224,7 +224,7 @@ public class CacheManager {
                 result = false;
             }
         } catch (SQLiteException e) {
-            Utils.log(e);
+            Utils.INSTANCE.log(e);
         }
         return result;
     }
@@ -275,7 +275,7 @@ public class CacheManager {
                                   .exec("rm -r " + context.getCacheDir());
             proc.waitFor();
         } catch (InterruptedException | IOException e) {
-            Utils.log("couldn't delete cache files " + e.toString());
+            Utils.INSTANCE.log("couldn't delete cache files " + e.toString());
         }
     }
 }

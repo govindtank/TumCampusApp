@@ -159,12 +159,12 @@ public class ChatActivity extends ActivityForDownloadingExternal implements Dial
     private final BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            Utils.logv("Message send. Trying to parse...");
+            Utils.INSTANCE.logv("Message send. Trying to parse...");
             GCMChat extras = (GCMChat) intent.getSerializableExtra("GCMChat");
             if (extras == null) {
                 return;
             }
-            Utils.log("Broadcast receiver got room=" + extras.getRoom() + " member=" + extras.getMember());
+            Utils.INSTANCE.log("Broadcast receiver got room=" + extras.getRoom() + " member=" + extras.getMember());
             handleRoomBroadcast(extras);
         }
     };
@@ -389,7 +389,7 @@ public class ChatActivity extends ActivityForDownloadingExternal implements Dial
     private void getIntentData() {
         Bundle extras = getIntent().getExtras();
         currentChatRoom = new Gson().fromJson(extras.getString(Const.CURRENT_CHAT_ROOM), ChatRoom.class);
-        currentChatMember = Utils.getSetting(this, Const.CHAT_MEMBER, ChatMember.class);
+        currentChatMember = Utils.INSTANCE.getSetting(this, Const.CHAT_MEMBER, ChatMember.class);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle(currentChatRoom.getName()
                                                           .substring(4));
@@ -497,8 +497,8 @@ public class ChatActivity extends ActivityForDownloadingExternal implements Dial
                      .leaveChatRoom(currentChatRoom, verification, new Callback<ChatRoom>() {
                          @Override
                          public void onResponse(Call<ChatRoom> call, Response<ChatRoom> room) {
-                             Utils.logv("Success leaving chat room: " + room.body()
-                                                                            .getName());
+                             Utils.INSTANCE.logv("Success leaving chat room: " + room.body()
+                                                                                     .getName());
                              new ChatRoomController(ChatActivity.this).leave(currentChatRoom);
 
                              // Move back to ChatRoomsActivity
@@ -508,7 +508,7 @@ public class ChatActivity extends ActivityForDownloadingExternal implements Dial
 
                          @Override
                          public void onFailure(Call<ChatRoom> call, Throwable t) {
-                             Utils.log(t, "Failure leaving chat room");
+                             Utils.INSTANCE.log(t, "Failure leaving chat room");
                          }
                      });
     }
@@ -574,14 +574,14 @@ public class ChatActivity extends ActivityForDownloadingExternal implements Dial
 
                              new AlertDialog.Builder(ChatActivity.this)
                                      .setTitle(R.string.message_details)
-                                     .setMessage(Utils.fromHtml(messageStr))
+                                     .setMessage(Utils.INSTANCE.fromHtml(messageStr))
                                      .create()
                                      .show();
                          }
 
                          @Override
                          public void onFailure(Call<List<ChatPublicKey>> call, Throwable t) {
-                             Utils.log(t, "Failure verifying message");
+                             Utils.INSTANCE.log(t, "Failure verifying message");
                          }
 
                      });

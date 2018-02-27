@@ -54,7 +54,7 @@ public class SetupEduroamActivity extends BaseActivity {
         }
 
         lrz = findViewById(R.id.wifi_lrz_id);
-        lrz.setText(Utils.getSetting(this, Const.LRZ_ID, ""));
+        lrz.setText(Utils.INSTANCE.getSetting(this, Const.LRZ_ID, ""));
         password = findViewById(R.id.wifi_password);
 
         //Set the focus for improved UX experience
@@ -99,14 +99,14 @@ public class SetupEduroamActivity extends BaseActivity {
         final Pattern pattern = Pattern.compile(Const.TUM_ID_PATTERN);
         if (!pattern.matcher(lrz.getText())
                     .matches()) {
-            Utils.showToast(this, getString(R.string.eduroam_not_valid_id));
+            Utils.INSTANCE.showToast(this, getString(R.string.eduroam_not_valid_id));
             return;
         }
 
         //We need some sort of password
         if (password.getText()
                     .length() == 0) {
-            Utils.showToast(this, getString(R.string.eduroam_please_enter_password));
+            Utils.INSTANCE.showToast(this, getString(R.string.eduroam_please_enter_password));
             return;
         }
 
@@ -116,7 +116,7 @@ public class SetupEduroamActivity extends BaseActivity {
                                                       .toString(), password.getText()
                                                                            .toString());
         if (success) {
-            Utils.showToast(this, R.string.eduroam_success);
+            Utils.INSTANCE.showToast(this, R.string.eduroam_success);
             finish();
 
             CardManager.setShouldRefresh();
@@ -144,7 +144,7 @@ public class SetupEduroamActivity extends BaseActivity {
             intent.putExtra("CERT", cert.getEncoded());
             startActivityForResult(intent, 0);
         } catch (Resources.NotFoundException | CertificateException e) {
-            Utils.log(e);
+            Utils.INSTANCE.log(e);
         }
     }
 

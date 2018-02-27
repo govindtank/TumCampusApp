@@ -74,9 +74,9 @@ public abstract class BaseActivity extends AppCompatActivity {
             headerView = mDrawerList.inflateHeaderView(R.layout.drawer_header);
             TextView nameText = headerView.findViewById(R.id.name);
             TextView emailText = headerView.findViewById(R.id.email);
-            nameText.setText(Utils.getSetting(this, Const.CHAT_ROOM_DISPLAY_NAME,
-                                              getString(R.string.token_not_enabled)));
-            StringBuffer email = new StringBuffer(Utils.getSetting(this, Const.LRZ_ID, ""));
+            nameText.setText(Utils.INSTANCE.getSetting(this, Const.CHAT_ROOM_DISPLAY_NAME,
+                                                       getString(R.string.token_not_enabled)));
+            StringBuffer email = new StringBuffer(Utils.INSTANCE.getSetting(this, Const.LRZ_ID, ""));
             if (!email.toString()
                       .isEmpty()) {
                 email.append("@mytum.de");
@@ -92,7 +92,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             // Set the NavigationDrawer's click listener
             mDrawerList.setNavigationItemSelectedListener(helper);
 
-            if (Utils.getSettingBool(this, Const.RAINBOW_MODE, false)) {
+            if (Utils.INSTANCE.getSettingBool(this, Const.RAINBOW_MODE, false)) {
                 headerView.setBackgroundResource(R.drawable.drawer_header_rainbow);
             } else {
                 headerView.setBackgroundResource(R.drawable.wear_tuition_fee);
@@ -138,7 +138,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     private void fetchProfilePicture() {
-        String id = Utils.getSetting(this, Const.TUMO_PIDENT_NR, "");
+        String id = Utils.INSTANCE.getSetting(this, Const.TUMO_PIDENT_NR, "");
         if (id.isEmpty()) {
             return;
         }

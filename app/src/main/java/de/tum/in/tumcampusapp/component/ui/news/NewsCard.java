@@ -116,7 +116,7 @@ public class NewsCard extends NotificationAwareCard {
         // Show regular news in browser
         String url = mNews.getLink();
         if (url.isEmpty()) {
-            Utils.showToast(mContext, R.string.no_link_existing);
+            Utils.INSTANCE.showToast(mContext, R.string.no_link_existing);
             return null;
         }
 

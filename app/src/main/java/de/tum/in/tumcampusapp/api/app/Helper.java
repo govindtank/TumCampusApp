@@ -67,7 +67,7 @@ public final class Helper {
         builder.connectTimeout(Helper.HTTP_TIMEOUT, TimeUnit.MILLISECONDS);
         builder.readTimeout(Helper.HTTP_TIMEOUT, TimeUnit.MILLISECONDS);
 
-        builder.addNetworkInterceptor(new TumHttpLoggingInterceptor(message -> Utils.logwithTag(TAG, message)));
+        builder.addNetworkInterceptor(new TumHttpLoggingInterceptor(message -> Utils.INSTANCE.logwithTag(TAG, message)));
 
         //Save it to the static handle and return
         client = builder.build();
@@ -87,9 +87,9 @@ public final class Helper {
         }
 
         return chain -> {
-            Utils.log("Fetching: " + chain.request()
-                                          .url()
-                                          .toString());
+            Utils.INSTANCE.log("Fetching: " + chain.request()
+                                                   .url()
+                                                   .toString());
             Request.Builder newRequest = chain.request()
                                               .newBuilder()
                                               .addHeader("X-DEVICE-ID", AuthenticationManager.getDeviceID(c))

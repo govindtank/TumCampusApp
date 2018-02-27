@@ -66,7 +66,7 @@ public class ScanResultsAvailableReceiver extends BroadcastReceiver {
 
         //Check if locations are enabled
         boolean locationsEnabled = ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
-        boolean wifiScansEnabled = Utils.getInternalSettingBool(context, Const.WIFI_SCANS_ALLOWED, false);
+        boolean wifiScansEnabled = Utils.INSTANCE.getInternalSettingBool(context, Const.WIFI_SCANS_ALLOWED, false);
         boolean nextScanScheduled = false;
 
         if (!locationsEnabled) {
@@ -98,19 +98,19 @@ public class ScanResultsAvailableReceiver extends BroadcastReceiver {
             //encountering an eduroam/lrz network. If the battery is lower, no new automatic scan will be
             //scheduled. This setting can be used as additional way to limit battery consumption and leaves
             //the user more freedom in deciding, when to scan.
-            float currentBattery = Utils.getBatteryLevel(context);
-            float minimumBattery = Utils.getInternalSettingFloat(context, Const.INSTANCE.WIFI_SCAN_MINIMUM_BATTERY_LEVEL, 50.0f);
+            float currentBattery = Utils.INSTANCE.getBatteryLevel(context);
+            float minimumBattery = Utils.INSTANCE.getInternalSettingFloat(context, Const.INSTANCE.WIFI_SCAN_MINIMUM_BATTERY_LEVEL, 50.0f);
             if (currentBattery > minimumBattery) {
                 wifiScanHandler.startRepetition();
-                Utils.log("WifiScanHandler rescheduled");
+                Utils.INSTANCE.log("WifiScanHandler rescheduled");
             } else {
-                Utils.log("WifiScanHandler stopped");
+                Utils.INSTANCE.log("WifiScanHandler stopped");
             }
         }
 
         //???
-        if (!Utils.getInternalSettingBool(context, SHOULD_SHOW, true)) {
-            Utils.setInternalSetting(context, SHOULD_SHOW, true);
+        if (!Utils.INSTANCE.getInternalSettingBool(context, SHOULD_SHOW, true)) {
+            Utils.INSTANCE.setInternalSetting(context, SHOULD_SHOW, true);
         }
     }
 
@@ -142,7 +142,7 @@ public class ScanResultsAvailableReceiver extends BroadcastReceiver {
      */
     static void showNotification(Context context) {
         // If previous notification is still visible
-        if (!Utils.getInternalSettingBool(context, SHOULD_SHOW, true)) {
+        if (!Utils.INSTANCE.getInternalSettingBool(context, SHOULD_SHOW, true)) {
             return;
         }
 
@@ -171,7 +171,7 @@ public class ScanResultsAvailableReceiver extends BroadcastReceiver {
         // Build GCMNotification with GCMNotification Manager
         notificationmanager.notify(123, builder.build());
 
-        Utils.setInternalSetting(context, SHOULD_SHOW, false);
+        Utils.INSTANCE.setInternalSetting(context, SHOULD_SHOW, false);
 
     }
 
@@ -185,7 +185,7 @@ public class ScanResultsAvailableReceiver extends BroadcastReceiver {
 
         @Override
         protected void onHandleIntent(Intent intent) {
-            Utils.setSetting(this, "card_eduroam_phone", false);
+            Utils.INSTANCE.setSetting(this, "card_eduroam_phone", false);
         }
     }
 }

@@ -97,7 +97,7 @@ public class NewsActivity extends ActivityForDownloadingExternal implements Dial
             // Populate the settings dialog from the NewsController sources
             for (NewsSources newsSource : newsSources) {
                 itemsList.add(newsSource.getTitle());
-                checkedList.add(Utils.getSettingBool(this, "news_source_" + newsSource.getId(), true));
+                checkedList.add(Utils.INSTANCE.getSettingBool(this, "news_source_" + newsSource.getId(), true));
             }
 
             CharSequence[] items = Iterables.toArray(itemsList, CharSequence.class);
@@ -118,8 +118,8 @@ public class NewsActivity extends ActivityForDownloadingExternal implements Dial
         List<NewsSources> newsSources = nm.getNewsSources();
 
         if (which < newsSources.size()) {
-            Utils.setSetting(this, "news_source_" + newsSources.get(which)
-                                                               .getId(), isChecked);
+            Utils.INSTANCE.setSetting(this, "news_source_" + newsSources.get(which)
+                                                                        .getId(), isChecked);
 
             if (lv != null) { //We really don't care if the lv is null, if the position can't be saved. Rather not have the app crash here
                 LinearLayoutManager layoutManager = (LinearLayoutManager) lv.getLayoutManager();

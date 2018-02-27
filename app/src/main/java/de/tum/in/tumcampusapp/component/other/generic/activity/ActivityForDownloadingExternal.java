@@ -58,7 +58,7 @@ public abstract class ActivityForDownloadingExternal extends ProgressActivity {
 
             String action = intent.getStringExtra(Const.ACTION_EXTRA);
             if (!action.isEmpty()) {
-                Utils.logv("Broadcast received  <" + action + ">");
+                Utils.INSTANCE.logv("Broadcast received  <" + action + ">");
                 if (action.equals(Const.COMPLETED)) {
                     showLoadingEnded();
                     // Calls onStart() to simulate a new start of the activity
@@ -94,7 +94,7 @@ public abstract class ActivityForDownloadingExternal extends ProgressActivity {
      */
     protected void requestDownload(boolean forceDownload) {
         if (!NetUtils.isConnected(this)) {
-            Utils.showToast(this, R.string.no_internet_connection);
+            Utils.INSTANCE.showToast(this, R.string.no_internet_connection);
         }
         showLoadingStart();
         Intent service = new Intent(this, DownloadService.class);

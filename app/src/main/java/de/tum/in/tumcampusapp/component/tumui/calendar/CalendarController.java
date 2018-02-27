@@ -204,7 +204,7 @@ public class CalendarController implements Card.ProvidesCard {
                 try {
                     replaceIntoDb(row);
                 } catch (Exception e) {
-                    Utils.log(e);
+                    Utils.INSTANCE.log(e);
                 }
             }
         }
@@ -290,13 +290,13 @@ public class CalendarController implements Card.ProvidesCard {
                 }
                 Optional<Geo> geo = locationManager.roomLocationStringToGeo(location);
                 if (geo.isPresent()) {
-                    Utils.logv("inserted " + location + ' ' + geo);
+                    Utils.INSTANCE.logv("inserted " + location + ' ' + geo);
                     roomLocationsDao.insert(new RoomLocations(location, geo.get()));
                 }
             }
 
             // Do sync of google calendar if necessary
-            boolean syncCalendar = Utils.getInternalSettingBool(c, Const.SYNC_CALENDAR, false)
+            boolean syncCalendar = Utils.INSTANCE.getInternalSettingBool(c, Const.SYNC_CALENDAR, false)
                                    && ContextCompat.checkSelfPermission(c, Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_GRANTED;
             if (syncCalendar && new SyncManager(c).needSync(Const.SYNC_CALENDAR, TIME_TO_SYNC_CALENDAR)) {
                 syncCalendar(c);

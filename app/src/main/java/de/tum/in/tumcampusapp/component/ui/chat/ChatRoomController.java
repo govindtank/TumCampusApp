@@ -98,12 +98,12 @@ public class ChatRoomController implements Card.ProvidesCard {
      */
     public void replaceIntoRooms(Collection<ChatRoom> rooms) {
         if (rooms == null || rooms.isEmpty()) {
-            Utils.log("No rooms passed, can't insert anything.");
+            Utils.INSTANCE.log("No rooms passed, can't insert anything.");
             return;
         }
 
         chatRoomDao.markAsNotJoined();
-        Utils.log("reset join status of all rooms");
+        Utils.INSTANCE.log("reset join status of all rooms");
 
         for (ChatRoom room : rooms) {
             String roomName = room.getActualName();
@@ -146,9 +146,9 @@ public class ChatRoomController implements Card.ProvidesCard {
         }
 
         // Join all new chat rooms
-        if (Utils.getSettingBool(context, Const.AUTO_JOIN_NEW_ROOMS, false)) {
+        if (Utils.INSTANCE.getSettingBool(context, Const.AUTO_JOIN_NEW_ROOMS, false)) {
             List<String> newRooms = this.getNewUnjoined();
-            ChatMember currentChatMember = Utils.getSetting(context, Const.CHAT_MEMBER, ChatMember.class);
+            ChatMember currentChatMember = Utils.INSTANCE.getSetting(context, Const.CHAT_MEMBER, ChatMember.class);
             for (String roomId : newRooms) {
                 // Join chat room
                 try {
@@ -159,7 +159,7 @@ public class ChatRoomController implements Card.ProvidesCard {
                         this.join(currentChatRoom);
                     }
                 } catch (IOException e) {
-                    Utils.log(e, " - error occured while creating the room!");
+                    Utils.INSTANCE.log(e, " - error occured while creating the room!");
                 } catch (NoPrivateKey noPrivateKey) {
                     return;
                 }

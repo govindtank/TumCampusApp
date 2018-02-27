@@ -91,7 +91,7 @@ public class NetUtils {
             return Optional.absent();
         }
 
-        Utils.logv("Download URL: " + url);
+        Utils.INSTANCE.logv("Download URL: " + url);
         Request.Builder builder = new Request.Builder().url(url);
 
         //Execute the request
@@ -135,7 +135,7 @@ public class NetUtils {
             }
             return Optional.absent();
         } catch (IOException e) {
-            Utils.log(e);
+            Utils.INSTANCE.log(e);
             return Optional.absent();
         }
 
@@ -190,7 +190,7 @@ public class NetUtils {
             }
 
             file = Optional.of(mContext.getCacheDir()
-                                       .getAbsolutePath() + '/' + Utils.hash(url) + ".jpg");
+                                       .getAbsolutePath() + '/' + Utils.INSTANCE.hash(url) + ".jpg");
             File f = new File(file.get());
             downloadToFile(url, file.get());
 
@@ -198,10 +198,10 @@ public class NetUtils {
             cacheManager.addToCache(url, file.get(), CacheManager.VALIDITY_TEN_DAYS, CacheManager.CACHE_TYP_IMAGE);
             return Optional.of(f);
         } catch (IOException e) {
-            Utils.log(e, pUrl);
+            Utils.INSTANCE.log(e, pUrl);
             return Optional.absent();
         } catch (IllegalArgumentException e) {
-            Utils.log(e, pUrl);
+            Utils.INSTANCE.log(e, pUrl);
             return Optional.absent();
         }
     }
@@ -274,11 +274,11 @@ public class NetUtils {
         try {
             Optional<String> data = downloadStringHttp(url);
             if (data.isPresent()) {
-                Utils.logv("downloadJson " + data);
+                Utils.INSTANCE.logv("downloadJson " + data);
                 return Optional.of(new JSONObject(data.get()));
             }
         } catch (IOException | JSONException e) {
-            Utils.log(e);
+            Utils.INSTANCE.log(e);
         }
         return Optional.absent();
     }
@@ -297,7 +297,7 @@ public class NetUtils {
             try {
                 result = new JSONArray(download.get());
             } catch (JSONException e) {
-                Utils.log(e);
+                Utils.INSTANCE.log(e);
             }
         }
         return Optional.fromNullable(result);
@@ -317,7 +317,7 @@ public class NetUtils {
             try {
                 result = new JSONObject(download.get());
             } catch (JSONException e) {
-                Utils.log(e);
+                Utils.INSTANCE.log(e);
             }
         }
         return Optional.fromNullable(result);

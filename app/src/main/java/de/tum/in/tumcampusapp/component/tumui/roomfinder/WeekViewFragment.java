@@ -137,7 +137,7 @@ public class WeekViewFragment extends Fragment implements MonthLoader.MonthChang
             return events;
 
         } catch (IOException | NullPointerException e) {
-            Utils.log(e);
+            Utils.INSTANCE.log(e);
         }
         return events;
     }

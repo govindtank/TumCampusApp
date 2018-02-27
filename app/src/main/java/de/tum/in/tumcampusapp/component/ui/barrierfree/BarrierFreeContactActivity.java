@@ -38,7 +38,7 @@ public class BarrierFreeContactActivity extends ActivityForLoadingInBackground<V
             result = TUMCabeClient.getInstance(this)
                                   .getBarrierfreeContactList();
         } catch (IOException e) {
-            Utils.log(e);
+            Utils.INSTANCE.log(e);
             return result;
         }
         return result;

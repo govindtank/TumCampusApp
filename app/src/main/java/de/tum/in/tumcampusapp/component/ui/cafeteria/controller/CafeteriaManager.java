@@ -68,7 +68,7 @@ public class CafeteriaManager implements Card.ProvidesCard {
                                         .subscribe(cafeteria -> {
                                             card.setCardMenus(cafeteria.id, cafeteria.name, cafeteria.dateStr, de.tum.in.tumcampusapp.utils.DateUtils.getDate(cafeteria.dateStr), cafeteria.menus);
                                             card.apply();
-                                        }, throwable -> Utils.log(throwable.getMessage())));
+                                        }, throwable -> Utils.INSTANCE.log(throwable.getMessage())));
 
     }
 
@@ -79,7 +79,7 @@ public class CafeteriaManager implements Card.ProvidesCard {
         // Choose which mensa should be shown
         int cafeteriaId = new LocationManager(context).getCafeteria();
         if (cafeteriaId == -1) {
-            Utils.log("could not get a Cafeteria form locationManager!");
+            Utils.INSTANCE.log("could not get a Cafeteria form locationManager!");
             return Flowable.just(Collections.emptyMap());
         }
 
@@ -97,7 +97,7 @@ public class CafeteriaManager implements Card.ProvidesCard {
         // Choose which mensa should be shown
         int cafeteriaId = new LocationManager(context).getCafeteria();
         if (cafeteriaId == -1) {
-            Utils.log("could not get a Cafeteria form locationManager!");
+            Utils.INSTANCE.log("could not get a Cafeteria form locationManager!");
             return Flowable.just("");
         }
         return createCafeteriaObservable(cafeteriaId)
@@ -109,7 +109,7 @@ public class CafeteriaManager implements Card.ProvidesCard {
         // Choose which mensa should be shown
         int cafeteriaId = new LocationManager(context).getCafeteria();
         if (cafeteriaId == -1) {
-            Utils.log("could not get a Cafeteria form locationManager!");
+            Utils.INSTANCE.log("could not get a Cafeteria form locationManager!");
         }
         return cafeteriaId;
     }
@@ -131,7 +131,7 @@ public class CafeteriaManager implements Card.ProvidesCard {
 
         return CafeteriaLocalRepository.INSTANCE
                 .getCafeteria(cafeteriaId)
-                .doOnError(throwable -> Utils.log(throwable.getMessage()))
+                .doOnError(throwable -> Utils.INSTANCE.log(throwable.getMessage()))
                 .flatMap(cafeteria1 -> {
                     cafeteria.name = cafeteria1.getName();
                     return CafeteriaLocalRepository.INSTANCE.getAllMenuDates();
@@ -153,7 +153,7 @@ public class CafeteriaManager implements Card.ProvidesCard {
 
         return cafeteriaViewModel
                 .getCafeteriaNameFromId(cafeteriaId)
-                .doOnError(throwable -> Utils.log(throwable.getMessage()))
+                .doOnError(throwable -> Utils.INSTANCE.log(throwable.getMessage()))
                 .flatMap(cafeteriaName -> {
                     cafeteria.name = cafeteriaName;
                     return cafeteriaViewModel.getAllMenuDates();

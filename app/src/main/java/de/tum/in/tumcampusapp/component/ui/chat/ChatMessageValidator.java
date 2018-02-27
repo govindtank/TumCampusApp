@@ -68,7 +68,7 @@ public class ChatMessageValidator {
         try {
             sig.initVerify(key);
         } catch (InvalidKeyException e) {
-            Utils.log(e);
+            Utils.INSTANCE.log(e);
             return false;
         }
 
@@ -77,13 +77,13 @@ public class ChatMessageValidator {
         try {
             sig.update(textBytes);
         } catch (SignatureException e) {
-            Utils.log(e);
+            Utils.INSTANCE.log(e);
             return false;
         }
         try {
             return sig.verify(decodeByteRepresentation(signature));
         } catch (SignatureException e) {
-            Utils.log(e);
+            Utils.INSTANCE.log(e);
             return false;
         }
     }
@@ -107,7 +107,7 @@ public class ChatMessageValidator {
         try {
             return keyFactory.generatePublic(new X509EncodedKeySpec(keyBytes));
         } catch (InvalidKeySpecException e) {
-            Utils.log(e);
+            Utils.INSTANCE.log(e);
             return null;
         }
 
