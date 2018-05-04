@@ -53,18 +53,21 @@ public class TopNewsCard extends Card {
 
     private void updateImageView(){
         String imageURL = Utils.getSetting(context, Const.NEWS_ALERT_IMAGE, "");
-        Picasso.get().load(imageURL).into(imageView, new Callback() {
-            @Override
-            public void onSuccess() {
-                // remove progress bar
-                progress.setVisibility(View.GONE);
-            }
+        if(!imageURL.isEmpty() && imageView != null){
+            Picasso.get().load(imageURL).into(imageView, new Callback() {
+                @Override
+                public void onSuccess() {
+                    // remove progress bar
+                    progress.setVisibility(View.GONE);
+                }
 
-            @Override
-            public void onError(Exception e) {
-                discardCard();
-            }
-        });
+                @Override
+                public void onError(Exception e) {
+                    discardCard();
+                }
+            });
+        }
+
     }
 
     @Override
